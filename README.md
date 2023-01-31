@@ -23,7 +23,7 @@ Pop-Up Messages on Port Found:
 
 
 LOG FILES:
-  - Log files records each HTTP call to a port # and then records a HTTP result for it, if one it returned. If not the request will eventually timeout and script will     move on to the next port number. 
+  - Log file records each HTTP call to a port # and then records a HTTP result for it, if one it returned. If not the request will eventually timeout and script will       move on to the next port number. 
   - The first time you run it, you'll see the log and error log files created. 
   - In this Alpha version, you will have to delete the log file if you want to clear it. 
   - Log file will try to create new file every time you run it. 
