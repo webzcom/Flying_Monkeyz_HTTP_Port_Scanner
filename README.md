@@ -1,10 +1,7 @@
 # Flying_Monkeyz_HTTP_Port_Scanner
-
-Flying Monkeyz Port Scanner by CyberAbyss
-Version 0.1 Alpha
-Released for educational purposes without warranty
-
-
+  - Flying Monkeyz Port Scanner by CyberAbyss
+  - Version 0.1 Alpha
+  - Released for educational purposes without warranty
 
 IMPORTANT!
   - This is a VBScript that runs on Windows.
