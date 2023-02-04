@@ -9,6 +9,7 @@ sTarget = "https://" & targetIP
 strNewLine = Chr(13) & Chr(10)
 outFile = "log-" & targetIP & ".csv" 		'File Path
 errorLogFile = "error-log.csv"	'Error Log File Path
+showFoundMessage = True
 
 'Create log file in CSV format and seed header row
 Sub CreateLogFile(strFileName)
@@ -107,7 +108,9 @@ Function isWebsiteOffline(strURL)
 	End If
 	
 	if isWebsiteOffline = False then
-		msgbox("Flying Monkeys by CyberAbyss! v1.0 Beta" & strNewLine & strNewLine & strURL & " / Port #" & i & " Found! " & strNewLine & strNewLine & http.responseText)
+		if showFoundMessage then
+			msgbox("Flying Monkeys by CyberAbyss! v1.0 Beta" & strNewLine & strNewLine & strURL & " / Port #" & i & " Found! " & strNewLine & strNewLine & http.responseText)
+		end if
 		'LogEventCSV Now(),strURL,http.status
         LogEventCSV Now(),strURL,http.status
 	end if
