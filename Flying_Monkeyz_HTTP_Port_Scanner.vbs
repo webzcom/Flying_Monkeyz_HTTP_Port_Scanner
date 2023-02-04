@@ -3,12 +3,12 @@
 'Released for educational purposes without warranty
 
 'Define global variables
-strNewLine = Chr(13) & Chr(10)
-outFile = "log.csv" 		'File Path
-errorLogFile = "error-log.csv"	'Error Log File Path
 targetIP = "localhost"
 target = "http://" & targetIP
 sTarget = "https://" & targetIP
+strNewLine = Chr(13) & Chr(10)
+outFile = "log-" & targetIP & ".csv" 		'File Path
+errorLogFile = "error-log.csv"	'Error Log File Path
 
 'Create log file in CSV format and seed header row
 Sub CreateLogFile(strFileName)
