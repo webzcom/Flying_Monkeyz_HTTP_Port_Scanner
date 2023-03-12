@@ -93,6 +93,11 @@ Function isWebsiteOffline(strURL)
 	'Set WshShell = WScript.CreateObject("WScript.Shell")
 
 	Set http = CreateObject("MSXML2.ServerXMLHTTP")
+	lResolve = 5 * 1000  
+	lConnect = 5 * 1000  
+	lSend = 15 * 1000 
+	lReceive = 15 * 1000  
+	http.setTimeouts lResolve, lConnect, lSend, lReceive
  	'Set http = CreateObject("Microsoft.XmlHttp")
 	http.open "GET", strURL, False
 	http.send ""
