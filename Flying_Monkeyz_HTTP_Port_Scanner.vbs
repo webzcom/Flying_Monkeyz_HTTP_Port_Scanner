@@ -94,6 +94,13 @@ Function isWebsiteOffline(strURL)
 	On Error Resume Next
 	'Set WshShell = WScript.CreateObject("WScript.Shell")
 
+	'Note 3/12/2023: From testing results... 
+	'The timeout settings: 
+	'1000: 1 HTTP call every 3 seconds
+	'500: 1 HTTP call every 2 seconds
+	'150: 1 HTTP call every 1 second
+	'You can try to set them lower but I'm not sure what the minimum values could be w/o making it malfunction
+	'Also: If you want to try and avoid detection, slow it down!
 	Set http = CreateObject("MSXML2.ServerXMLHTTP")
 	lResolve = 5 * 150  
 	lConnect = 5 * 150  
