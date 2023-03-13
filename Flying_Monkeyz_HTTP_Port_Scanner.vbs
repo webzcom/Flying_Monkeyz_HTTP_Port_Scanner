@@ -1,5 +1,6 @@
+
 'Flying Monkeyz Port Scanner by CyberAbyss
-'Version 0.1 Alpha
+'Version 0.2 Alpha
 'Released for educational purposes without warranty
 
 'Define global variables
@@ -10,6 +11,7 @@ strNewLine = Chr(13) & Chr(10)
 outFile = "log-" & targetIP & ".csv" 		'File Path
 errorLogFile = "error-log.csv"	'Error Log File Path
 showFoundMessage = True
+logCalls = False
 
 'Create log file in CSV format and seed header row
 Sub CreateLogFile(strFileName)
@@ -91,18 +93,12 @@ End Function
 Function isWebsiteOffline(strURL)
 	On Error Resume Next
 	'Set WshShell = WScript.CreateObject("WScript.Shell")
-	
-	'Note 3/12/2023: From testing results... 
-	'The timeout settings: 
-	'1000: 1 HTTP call every 3 seconds
-	'500: 1 HTTP call every 2 second	
-	'You can try to set them lower but I'm not sure what the minimum values could be w/o making it malfunction
-	'Also: If you want to try and avoid detection, slow it down!
+
 	Set http = CreateObject("MSXML2.ServerXMLHTTP")
-	lResolve = 5 * 1000  
-	lConnect = 5 * 1000  
-	lSend = 15 * 1000 
-	lReceive = 15 * 1000  
+	lResolve = 5 * 150  
+	lConnect = 5 * 150  
+	lSend = 15 * 1500 
+	lReceive = 15 * 150  
 	http.setTimeouts lResolve, lConnect, lSend, lReceive
  	'Set http = CreateObject("Microsoft.XmlHttp")
 	http.open "GET", strURL, False
@@ -123,7 +119,7 @@ Function isWebsiteOffline(strURL)
 			msgbox("Flying Monkeys by CyberAbyss! v1.0 Beta" & strNewLine & strNewLine & strURL & " / Port #" & i & " Found! " & strNewLine & strNewLine & http.responseText)
 		end if
 		'LogEventCSV Now(),strURL,http.status
-        LogEventCSV Now(),strURL,http.status
+        LogEventCSV Now(),strURL,http.status & " found!"
 	end if
 
 	'set WshShell = Nothing
@@ -173,11 +169,14 @@ CreateLogFile(outfile)
 
 iStep = 1
 
-	For i = 444 to 9999 Step iStep
+	For i = 6779 to 9999 Step iStep
 		'msgbox("Scanning " & target1 & iLastOctet & ":" & i)
-        LogEventCSV Now(),target & ":" & i,"Calling"
+		if logCalls then
+			LogEventCSV Now(),target & ":" & i,"Calling"
+		end if
 		call isWebsiteOffline(target & ":" & i)
 	Next
 	
 msgbox("Completed port scan on " & target & " with port # " & i & ".")
+
 
