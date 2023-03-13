@@ -12,6 +12,8 @@ outFile = "log-" & targetIP & ".csv" 		'File Path
 errorLogFile = "error-log.csv"	'Error Log File Path
 showFoundMessage = True
 logCalls = False
+'Example shows 10 * 10000 form miliseconds to seconds
+httpTimeout = 1000
 
 'Create log file in CSV format and seed header row
 Sub CreateLogFile(strFileName)
@@ -101,11 +103,15 @@ Function isWebsiteOffline(strURL)
 	'150: 1 HTTP call every 1 second
 	'You can try to set them lower but I'm not sure what the minimum values could be w/o making it malfunction
 	'Also: If you want to try and avoid detection, slow it down!
-	Set http = CreateObject("MSXML2.ServerXMLHTTP")
-	lResolve = 5 * 150  
-	lConnect = 5 * 150  
-	lSend = 15 * 1500 
-	lReceive = 15 * 150  
+	
+	'Reference: https://learn.microsoft.com/en-us/previous-versions/windows/desktop/ms760403(v=vs.85)
+	'Set http = CreateObject("MSXML2.ServerXMLHTTP")
+	'Adding new version ServerXMLHTTP.6.0 so we can use the timeout options (only in version 3 & 6) 
+	Set http = CreateObject("Msxml2.ServerXMLHTTP.6.0")
+	lResolve = 5 * httpTimeout 
+	lConnect = 5 * httpTimeout  
+	lSend = 15 * httpTimeout 
+	lReceive = 15 * httpTimeout  
 	http.setTimeouts lResolve, lConnect, lSend, lReceive
  	'Set http = CreateObject("Microsoft.XmlHttp")
 	http.open "GET", strURL, False
