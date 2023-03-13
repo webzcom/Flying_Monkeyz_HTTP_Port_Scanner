@@ -11,9 +11,12 @@ strNewLine = Chr(13) & Chr(10)
 outFile = "log-" & targetIP & ".csv" 		'File Path
 errorLogFile = "error-log.csv"	'Error Log File Path
 showFoundMessage = True
-logCalls = False
+logCalls = True
+logOnEvery = 100
 'Example shows 10 * 10000 form miliseconds to seconds
 httpTimeout = 1000
+commonPortsList = "80,443,8080"
+arrCommonPorts = split(commonPortsList,",")
 
 'Create log file in CSV format and seed header row
 Sub CreateLogFile(strFileName)
@@ -153,30 +156,26 @@ CreateLogFile(outfile)
 	call CreateLogFile(errorLogFile)
 
 'Outside IP loop for last octet
-
 'For iLastOctet = 0 to 255
-	For i = 8080 to 8080
-		'msgbox("Scanning " & target1 & iLastOctet & ":" & i)
-        LogEventCSV Now(),target1 & ":" & i,"Calling"
-		call isWebsiteOffline(target & ":" & i)
-	Next
+For each item in arrCommonPorts
+	'msgbox("Scanning " & target1 & iLastOctet & ":" & i)
+	LogEventCSV Now(),target1 & ":" & item,"Calling"
+	call isWebsiteOffline(target & ":" & item)
+Next
 'Next
 
-'For iLastOctet = 0 to 255
-	For i = 80 to 80
-		'msgbox("Scanning " & target1 & iLastOctet & ":" & i)
-        LogEventCSV Now(),target & ":" & i,"Calling"
-		call isWebsiteOffline(target & ":" & i)
-	Next
-'Next
 
-'For iLastOctet = 0 to 255
-	For i = 443 to 443
-		'msgbox("Scanning " & target1 & iLastOctet & ":" & i)
-        LogEventCSV Now(),sTarget & ":" & i,"Calling"
-		call isWebsiteOffline(sTarget & ":" & i)
-	Next
-'Next
+iStep = 1
+For i = 6779 to 9999 Step iStep
+	'msgbox("Scanning " & target1 & iLastOctet & ":" & i)
+	if logCalls then
+		'msgbox(i Mod logOnEvery)
+		if i Mod logOnEvery = 0 then
+			LogEventCSV Now(),target & ":" & i,"Calling"
+		end if
+	end if
+	call isWebsiteOffline(target & ":" & i)
+Next
 
 'msgbox("done checking port: " & i)
 
