@@ -1,6 +1,6 @@
 
 'Flying Monkeyz Port Scanner by CyberAbyss
-'Version 0.2 Alpha
+'Version 0.3 Alpha
 'Released for educational purposes without warranty
 
 'Define global variables
@@ -17,6 +17,9 @@ logOnEvery = 100
 httpTimeout = 1000
 commonPortsList = "80,443,8080"
 arrCommonPorts = split(commonPortsList,",")
+iStep = 1
+iStartPort = 40001
+iEndPort = 50000
 
 'Create log file in CSV format and seed header row
 Sub CreateLogFile(strFileName)
@@ -155,6 +158,7 @@ CreateLogFile(outfile)
 	call CreateLogFile(outFile)
 	call CreateLogFile(errorLogFile)
 
+'Short Scan from List
 'Outside IP loop for last octet
 'For iLastOctet = 0 to 255
 For each item in arrCommonPorts
@@ -165,8 +169,8 @@ Next
 'Next
 
 
-iStep = 1
-For i = 6779 to 9999 Step iStep
+'Long Scan Loop
+For i = iStartPort to iEndPort Step iStep
 	'msgbox("Scanning " & target1 & iLastOctet & ":" & i)
 	if logCalls then
 		'msgbox(i Mod logOnEvery)
@@ -177,18 +181,6 @@ For i = 6779 to 9999 Step iStep
 	call isWebsiteOffline(target & ":" & i)
 Next
 
-'msgbox("done checking port: " & i)
-
-iStep = 1
-
-	For i = 6779 to 9999 Step iStep
-		'msgbox("Scanning " & target1 & iLastOctet & ":" & i)
-		if logCalls then
-			LogEventCSV Now(),target & ":" & i,"Calling"
-		end if
-		call isWebsiteOffline(target & ":" & i)
-	Next
-	
 msgbox("Completed port scan on " & target & " with port # " & i & ".")
 
 
