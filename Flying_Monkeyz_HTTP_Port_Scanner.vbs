@@ -20,6 +20,8 @@ arrCommonPorts = split(commonPortsList,",")
 iStep = 1
 iStartPort = 40001
 iEndPort = 50000
+runShortScan = True
+runLongScan = False
 
 'Create log file in CSV format and seed header row
 Sub CreateLogFile(strFileName)
@@ -161,25 +163,29 @@ CreateLogFile(outfile)
 'Short Scan from List
 'Outside IP loop for last octet
 'For iLastOctet = 0 to 255
-For each item in arrCommonPorts
-	'msgbox("Scanning " & target1 & iLastOctet & ":" & i)
-	LogEventCSV Now(),target1 & ":" & item,"Calling"
-	call isWebsiteOffline(target & ":" & item)
-Next
+if runShortScan then
+	For each item in arrCommonPorts
+		'msgbox("Scanning " & target1 & iLastOctet & ":" & i)
+		LogEventCSV Now(),target1 & ":" & item,"Calling"
+		call isWebsiteOffline(target & ":" & item)
+	Next
+end if
 'Next
 
 
 'Long Scan Loop
-For i = iStartPort to iEndPort Step iStep
-	'msgbox("Scanning " & target1 & iLastOctet & ":" & i)
-	if logCalls then
-		'msgbox(i Mod logOnEvery)
-		if i Mod logOnEvery = 0 then
-			LogEventCSV Now(),target & ":" & i,"Calling"
+if runLongScan then
+	For i = iStartPort to iEndPort Step iStep
+		'msgbox("Scanning " & target1 & iLastOctet & ":" & i)
+		if logCalls then
+			'msgbox(i Mod logOnEvery)
+			if i Mod logOnEvery = 0 then
+				LogEventCSV Now(),target & ":" & i,"Calling"
+			end if
 		end if
-	end if
-	call isWebsiteOffline(target & ":" & i)
-Next
+		call isWebsiteOffline(target & ":" & i)
+	Next
+end if
 
 msgbox("Completed port scan on " & target & " with port # " & i & ".")
 
