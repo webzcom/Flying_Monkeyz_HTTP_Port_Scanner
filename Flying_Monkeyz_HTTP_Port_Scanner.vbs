@@ -18,10 +18,10 @@ httpTimeout = 500
 commonPortsList = "80,443,5000,8080,32400,554,88,81,555,7447,8554,7070,10554,6667,8081,8090"
 arrCommonPorts = split(commonPortsList,",")
 iStep = 1
-iStartPort = 40001
-iEndPort = 50000
-runShortScan = True
-runLongScan = False
+iStartPort = 30001	'Max Value is 65535
+iEndPort = 65536	'Max Value is 65536
+runShortScan = False
+runLongScan = True
 
 'Create log file in CSV format and seed header row
 Sub CreateLogFile(strFileName)
