@@ -14,7 +14,7 @@ showFoundMessage = True
 logCalls = True
 logOnEvery = 100
 'Example shows 10 * 10000 form miliseconds to seconds
-httpTimeout = 1000
+httpTimeout = 500
 commonPortsList = "80,443,5000,8080,32400,554,88,81,555,7447,8554,7070,10554,6667,8081,8090"
 arrCommonPorts = split(commonPortsList,",")
 iStep = 1
