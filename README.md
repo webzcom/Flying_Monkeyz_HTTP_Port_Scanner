@@ -1,7 +1,7 @@
 # Flying_Monkeyz_HTTP_Port_Scanner
   - Flying Monkeyz Port Scanner
   - Author: CyberAbyss
-  - Version 0.2 Alpha
+  - Version 0.3 Alpha
   - Released for educational purposes without warranty
 
 IMPORTANT!
