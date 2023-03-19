@@ -3,8 +3,7 @@
 'Released for educational purposes without warranty
 
 'Define global variables
-'targetIP = "158.58.184.35"
-targetIP = "158.58.184.47"
+targetIP = "localhost"
 target = "http://" & targetIP
 sTarget = "https://" & targetIP
 strNewLine = Chr(13) & Chr(10)
