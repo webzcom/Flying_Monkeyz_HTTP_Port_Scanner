@@ -1,9 +1,10 @@
 'Flying Monkeyz Port Scanner by CyberAbyss
-'Version 0.3 Alpha
+'Version 1.0 Alpha
 'Released for educational purposes without warranty
 
 'Define global variables
-targetIP = "158.58.184.35"
+'targetIP = "158.58.184.35"
+targetIP = "158.58.184.47"
 target = "http://" & targetIP
 sTarget = "https://" & targetIP
 strNewLine = Chr(13) & Chr(10)
@@ -22,12 +23,7 @@ iEndPort = 65536	'Max Value is 65536
 isShortScan = False
 isLongScan = False
 isMassScan = True
-massScanIP = ""	'Use this for later use in mass scan function 	
 
-if isMassScan Then
-	'Remove the last octect from the IP
-	
-end if
 
 'Create log file in CSV format and seed header row
 Sub CreateLogFile(strFileName)
