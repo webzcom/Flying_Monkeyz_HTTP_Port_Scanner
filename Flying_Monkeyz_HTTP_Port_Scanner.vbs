@@ -1,9 +1,11 @@
 'Flying Monkeyz Port Scanner by CyberAbyss
-'Version 1.0 Alpha
+'Version 2.0 Alpha
 'Released for educational purposes without warranty
 
 'Define global variables
-targetIP = "localhost"
+rootPath = "C:\scripts\01-Monkeyz"
+scrapePath = "C:\scripts\01-Monkeyz\scrape\"
+targetIP = "158.58.184.47"
 target = "http://" & targetIP
 sTarget = "https://" & targetIP
 strNewLine = Chr(13) & Chr(10)
@@ -14,15 +16,15 @@ logCalls = False
 logOnEvery = 100
 'Example shows 10 * 10000 form miliseconds to seconds
 httpTimeout = 500
-commonPortsList = "80,443,5000,8080,32400,554,88,81,555,7447,8554,7070,10554,6667,8081,8090"
+'commonPortsList = "80,443,5000,8080,32400,554,88,81,555,7447,8554,7070,10554,6667,8081,8090"
+commonPortsList = "80"
 arrCommonPorts = split(commonPortsList,",")
 iStep = 1
 iStartPort = 30001	'Max Value is 65535
 iEndPort = 65536	'Max Value is 65536
 isShortScan = False
 isLongScan = False
-isMassScan = True
-
+isMassScan = True	'Mass Scan runs a short scan on all IP addresses in the target IP's subnet
 
 'Create log file in CSV format and seed header row
 Sub CreateLogFile(strFileName)
@@ -142,6 +144,7 @@ Function isWebsiteOffline(strURL)
 	
 	if isWebsiteOffline = False then
 		if showFoundMessage then
+			DownLoadFile strURL, scrapePath & Replace(Replace(Replace(strURL,".","-"),":80",""),"http://","") & ".html"
 			msgbox("Flying Monkeyz by CyberAbyss! v1.0 Beta" & strNewLine & strNewLine & strURL & " / Port #" & i & " Found! " & strNewLine & strNewLine & http.responseText)
 		end if
 		'LogEventCSV Now(),strURL,http.status
@@ -187,12 +190,39 @@ End Function
 
 Function runMassScan(target)	
 	
-	For iLastOctet = 0 to 255
+	For iLastOctet = 100 to 255
 		'MsgBox(target & "." & iLastOctet)	
 		runShortScan(target & "." & iLastOctet)
 	Next
 	
 End Function
+
+
+Sub DownloadFile(url,filePath)
+
+    Dim WinHttpReq, attempts
+    attempts = 3
+    'On Error GoTo TryAgain
+'TryAgain:
+    attempts = attempts - 1
+    Err.Clear
+    If attempts > 0 Then
+        Set WinHttpReq = CreateObject("Microsoft.XMLHTTP")
+        WinHttpReq.Open "GET", url, False
+        WinHttpReq.send
+
+        If WinHttpReq.Status = 200 Then
+            Set oStream = CreateObject("ADODB.Stream")
+            oStream.Open
+            oStream.Type = 1
+            oStream.Write WinHttpReq.responseBody
+            oStream.SaveToFile filePath, 2 ' 1 = no overwrite, 2 = overwrite
+            oStream.Close
+        End If
+    End If
+End Sub
+
+
 
 
 'Start processing commands here!
