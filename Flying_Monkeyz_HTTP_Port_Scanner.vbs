@@ -1,16 +1,16 @@
 'Flying Monkeyz Port Scanner by CyberAbyss
-'Version 0.5 Alpha
+'Version 0.3 Alpha
 'Released for educational purposes without warranty
 
 'Define global variables
-targetIP = "158.58.184.47"
+targetIP = "158.58.184.35"
 target = "http://" & targetIP
 sTarget = "https://" & targetIP
 strNewLine = Chr(13) & Chr(10)
 outFile = "log-" & targetIP & ".csv" 		'File Path
 errorLogFile = "error-log.csv"	'Error Log File Path
 showFoundMessage = True
-logCalls = True
+logCalls = False
 logOnEvery = 100
 'Example shows 10 * 10000 form miliseconds to seconds
 httpTimeout = 500
@@ -108,6 +108,10 @@ End Function
 'isPortalOffiline Returns (True / False)
 Function isWebsiteOffline(strURL)
 	On Error Resume Next
+	
+	if InStr(strURL, ":443") > 0 Then
+		strURL = Replace(strURL,"http","https")
+	end if
 	'Set WshShell = WScript.CreateObject("WScript.Shell")
 
 	'Note 3/12/2023: From testing results... 
@@ -159,22 +163,17 @@ Function isWebsiteOffline(strURL)
 End Function
 
 
-'Start processing commands here!
-CreateLogFile("error-log.csv")
-CreateLogFile(outfile)
-
-	call CreateLogFile(outFile)
-	call CreateLogFile(errorLogFile)
-
-
 Function runShortScan(target)
 	'Short Scan from List
 	For each item in arrCommonPorts
 		'msgbox("Scanning " & target1 & iLastOctet & ":" & i)
-		LogEventCSV Now(),target & ":" & item,"Calling"
+		if logCalls then
+			LogEventCSV Now(),target & ":" & item,"Calling"
+		end if
 		call isWebsiteOffline(target & ":" & item)
 	Next
 End Function
+
 
 Function runLongScan(target)
 	'Long Scan Loop
@@ -201,6 +200,13 @@ Function runMassScan(target)
 End Function
 
 
+'Start processing commands here!
+CreateLogFile("error-log.csv")
+CreateLogFile(outfile)
+
+	call CreateLogFile(outFile)
+	call CreateLogFile(errorLogFile)
+
 	if isShortScan then
 		runShortScan(target)
 	end if
@@ -216,6 +222,4 @@ End Function
 	end if
 
 
-
 msgbox("Completed port scan on " & target & " with port # " & i & ".")
-
