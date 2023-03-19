@@ -1,10 +1,9 @@
-
 'Flying Monkeyz Port Scanner by CyberAbyss
-'Version 0.3 Alpha
+'Version 0.5 Alpha
 'Released for educational purposes without warranty
 
 'Define global variables
-targetIP = "localhost"
+targetIP = "158.58.184.47"
 target = "http://" & targetIP
 sTarget = "https://" & targetIP
 strNewLine = Chr(13) & Chr(10)
@@ -20,8 +19,15 @@ arrCommonPorts = split(commonPortsList,",")
 iStep = 1
 iStartPort = 30001	'Max Value is 65535
 iEndPort = 65536	'Max Value is 65536
-runShortScan = False
-runLongScan = True
+isShortScan = False
+isLongScan = False
+isMassScan = True
+massScanIP = ""	'Use this for later use in mass scan function 	
+
+if isMassScan Then
+	'Remove the last octect from the IP
+	
+end if
 
 'Create log file in CSV format and seed header row
 Sub CreateLogFile(strFileName)
@@ -160,33 +166,56 @@ CreateLogFile(outfile)
 	call CreateLogFile(outFile)
 	call CreateLogFile(errorLogFile)
 
-'Short Scan from List
-'Outside IP loop for last octet
-'For iLastOctet = 0 to 255
-if runShortScan then
+
+Function runShortScan(target)
+	'Short Scan from List
 	For each item in arrCommonPorts
 		'msgbox("Scanning " & target1 & iLastOctet & ":" & i)
-		LogEventCSV Now(),target1 & ":" & item,"Calling"
+		LogEventCSV Now(),target & ":" & item,"Calling"
 		call isWebsiteOffline(target & ":" & item)
 	Next
-end if
-'Next
+End Function
 
-
-'Long Scan Loop
-if runLongScan then
-	For i = iStartPort to iEndPort Step iStep
-		'msgbox("Scanning " & target1 & iLastOctet & ":" & i)
-		if logCalls then
-			'msgbox(i Mod logOnEvery)
-			if i Mod logOnEvery = 0 then
-				LogEventCSV Now(),target & ":" & i,"Calling"
+Function runLongScan(target)
+	'Long Scan Loop
+		For i = iStartPort to iEndPort Step iStep
+			'msgbox("Scanning " & target1 & iLastOctet & ":" & i)
+			if logCalls then
+				'msgbox(i Mod logOnEvery)
+				if i Mod logOnEvery = 0 then
+					LogEventCSV Now(),target & ":" & i,"Calling"
+				end if
 			end if
-		end if
-		call isWebsiteOffline(target & ":" & i)
+			call isWebsiteOffline(target & ":" & i)
+		Next
+End Function
+
+
+Function runMassScan(target)	
+	
+	For iLastOctet = 0 to 255
+		'MsgBox(target & "." & iLastOctet)	
+		runShortScan(target & "." & iLastOctet)
 	Next
-end if
+	
+End Function
+
+
+	if isShortScan then
+		runShortScan(target)
+	end if
+	
+	if isLongScan then
+		runLongScan(target)
+	end if
+	
+	if isMassScan then
+		arrTemp = Split(target, ".")
+		target = arrTemp(0) & "." & arrTemp(1) & "." & arrTemp(2)
+		runMassScan(target)
+	end if
+
+
 
 msgbox("Completed port scan on " & target & " with port # " & i & ".")
-
 
