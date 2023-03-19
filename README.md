@@ -1,7 +1,7 @@
 # Flying_Monkeyz_HTTP_Port_Scanner
   - Flying Monkeyz Port Scanner
   - Author: CyberAbyss
-  - Version 0.5 Alpha
+  - Version 2.0 Alpha
   - Released for educational purposes without warranty
 
 IMPORTANT!
@@ -19,6 +19,8 @@ HOW TO RUN:
 Pop-Up Messages on Port Found:
   -  When script hits a web page on a port #, the HTML will be displayed in a pop-up window and log the URL and HTTP status for that URL.
 
+Srape Found Content:
+  - Added in version 2.0, you can now configure a scraper path to save scraped data for all found pages.
 
 LOG FILES:
   - The first time you run it, you'll see the log and error log files created. 
