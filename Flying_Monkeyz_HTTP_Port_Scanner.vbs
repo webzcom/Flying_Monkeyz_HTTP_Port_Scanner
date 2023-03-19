@@ -7,6 +7,7 @@ rootPath = "C:\scripts\01-Monkeyz"
 scrapePath = "C:\scripts\01-Monkeyz\scrape\"
 doWeScrapeContent = "true"
 targetIP = "localhost"
+'targetIP = "158.58.184.47"
 target = "http://" & targetIP
 sTarget = "https://" & targetIP
 strNewLine = Chr(13) & Chr(10)
@@ -194,10 +195,7 @@ End Function
 
 
 Function runMassScan(target)	
-	if targetIP = "localhost" then
-		msgbox("Sorry, you can't run a mass scan on localhost. Mass scan IPs Only!")
-		Exit Function
-	end if
+	
 	For iLastOctet = 0 to 255
 		'MsgBox(target & "." & iLastOctet)	
 		runShortScan(target & "." & iLastOctet)
@@ -249,13 +247,9 @@ CreateLogFile(outfile)
 	end if
 	
 	if isMassScan then
-		if targetIP = "localhost" then
-			msgbox("Sorry, you can't run a mass scan on localhost. Mass scan IPs Only!")
-		else
-			arrTemp = Split(target, ".")
-			target = arrTemp(0) & "." & arrTemp(1) & "." & arrTemp(2)
-			runMassScan(target)
-		end if
+		arrTemp = Split(target, ".")
+		target = arrTemp(0) & "." & arrTemp(1) & "." & arrTemp(2)
+		runMassScan(target)
 	end if
 
 
