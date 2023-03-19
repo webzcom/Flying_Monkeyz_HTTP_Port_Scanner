@@ -137,7 +137,7 @@ Function isWebsiteOffline(strURL)
 	
 	if isWebsiteOffline = False then
 		if showFoundMessage then
-			msgbox("Flying Monkeys by CyberAbyss! v1.0 Beta" & strNewLine & strNewLine & strURL & " / Port #" & i & " Found! " & strNewLine & strNewLine & http.responseText)
+			msgbox("Flying Monkeyz by CyberAbyss! v1.0 Beta" & strNewLine & strNewLine & strURL & " / Port #" & i & " Found! " & strNewLine & strNewLine & http.responseText)
 		end if
 		'LogEventCSV Now(),strURL,http.status
         LogEventCSV Now(),strURL,http.status & " found!"
