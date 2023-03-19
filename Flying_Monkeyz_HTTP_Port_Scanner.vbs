@@ -5,13 +5,14 @@
 'Define global variables
 rootPath = "C:\scripts\01-Monkeyz"
 scrapePath = "C:\scripts\01-Monkeyz\scrape\"
+doWeScrapeContent = "true"
 targetIP = "localhost"
 target = "http://" & targetIP
 sTarget = "https://" & targetIP
 strNewLine = Chr(13) & Chr(10)
 outFile = "log-" & targetIP & ".csv" 		'File Path
 errorLogFile = "error-log.csv"	'Error Log File Path
-showFoundMessage = True
+showFoundMessage = false
 logCalls = False
 logOnEvery = 100
 'Example shows 10 * 10000 form miliseconds to seconds
@@ -25,6 +26,7 @@ iEndPort = 65536	'Max Value is 65536
 isShortScan = False
 isLongScan = False
 isMassScan = True	'Mass Scan runs a short scan on all IP addresses in the target IP's subnet
+
 
 'Create log file in CSV format and seed header row
 Sub CreateLogFile(strFileName)
@@ -143,8 +145,11 @@ Function isWebsiteOffline(strURL)
 	End If
 	
 	if isWebsiteOffline = False then
-		if showFoundMessage then
+		if doWeScrapeContent Then
 			DownLoadFile strURL, scrapePath & Replace(Replace(Replace(strURL,".","-"),":80",""),"http://","") & ".html"
+		end if
+		
+		if showFoundMessage then			
 			msgbox("Flying Monkeyz by CyberAbyss! v1.0 Beta" & strNewLine & strNewLine & strURL & " / Port #" & i & " Found! " & strNewLine & strNewLine & http.responseText)
 		end if
 		'LogEventCSV Now(),strURL,http.status
