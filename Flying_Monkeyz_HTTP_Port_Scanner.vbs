@@ -5,7 +5,7 @@
 'Define global variables
 rootPath = "C:\scripts\01-Monkeyz"
 scrapePath = "C:\scripts\01-Monkeyz\scrape\"
-targetIP = "158.58.184.47"
+targetIP = "localhost"
 target = "http://" & targetIP
 sTarget = "https://" & targetIP
 strNewLine = Chr(13) & Chr(10)
