@@ -194,7 +194,10 @@ End Function
 
 
 Function runMassScan(target)	
-	
+	if targetIP = "localhost" then
+		msgbox("Sorry, you can't run a mass scan on localhost. Mass scan IPs Only!")
+		Exit Function
+	end if
 	For iLastOctet = 0 to 255
 		'MsgBox(target & "." & iLastOctet)	
 		runShortScan(target & "." & iLastOctet)
@@ -246,9 +249,13 @@ CreateLogFile(outfile)
 	end if
 	
 	if isMassScan then
-		arrTemp = Split(target, ".")
-		target = arrTemp(0) & "." & arrTemp(1) & "." & arrTemp(2)
-		runMassScan(target)
+		if targetIP = "localhost" then
+			msgbox("Sorry, you can't run a mass scan on localhost. Mass scan IPs Only!")
+		else
+			arrTemp = Split(target, ".")
+			target = arrTemp(0) & "." & arrTemp(1) & "." & arrTemp(2)
+			runMassScan(target)
+		end if
 	end if
 
 
