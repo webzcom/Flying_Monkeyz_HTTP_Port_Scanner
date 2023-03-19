@@ -21,6 +21,7 @@ Pop-Up Messages on Port Found:
 
 Srape Found Content:
   - Added in version 2.0, you can now configure a scraper path to save scraped data for all found pages.
+  - You might have to manually create the scraper folder that you configure until I get chance to test and refactor if needed.
 
 LOG FILES:
   - The first time you run it, you'll see the log and error log files created. 
