@@ -10,7 +10,14 @@ IMPORTANT!
   - By default, script will scan http://localhost. You can figure out how to change it in the variables.
 
 HOW TO CONFIGURE:
-  - If you can read VBScript, you'll be able to figure this one out using the variables I've set at the top of the script.
+  - Use the script configuration variables to configure Flying Monkeyz.
+  - Below are details of how to configure the script.
+ 
+MODES: Modes are set by true / false values in the configuration 
+- Short Scan: Scans the most common ports from list
+- Long Scan: Scans all the ports from 1 t0 65000
+- Mass Scan: Runs a short scan on all IP addresses in the target IP's subnet
+- Note: If you run a mass scan, you'll need to set both Long and Short Scans to False until I can fix the code.
 
 HOW TO RUN:
   - To run, double click the .vbs file.
