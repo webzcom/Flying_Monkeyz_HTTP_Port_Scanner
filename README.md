@@ -28,7 +28,7 @@ SHORT SCAN SETTINGS:
 - arrCommonPorts: Holds the array of common ports created from the list.
 
 LONG SCAN SETTINGS:
-- Step = 1: Controls the increment value of the loop (Use value of 2 for even ports & 3 for odd ports)
+- Step = 1: Controls the increment value of the loop (Use values like 2 or 3 for Even & Odd ports or 1000)
 - iStartPort = 1: Lowest Value is 1
 - iEndPort = 65536: Max HTTP port value is 65536
 
