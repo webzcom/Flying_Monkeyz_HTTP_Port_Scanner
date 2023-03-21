@@ -52,7 +52,6 @@ RECON OPTIONS:
 - A short list w/ port 80 only for use with mass scan to speed it up then longer list "80,443,5000,8080,32400,554,88,81,555,7447,8554,7070,10554,6667,8081,8090"
 - arrCommonPorts: Holds the array of common ports created from the list.
 
-
 HOW TO RUN:
   - To run, double click the .vbs file.
   - Use Windows Task Manger to kill the wscript.exe manually
