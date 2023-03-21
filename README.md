@@ -40,9 +40,9 @@ FILE READING / WRITING
 - outFile: Output file path
 - errorLogFile: Error log file path
 
-SCRAPER CONFIGURATION
-- doWeScrapeContent = "true"
-- 
+SCRAPER CONFIGURATION: True / False
+- doWeScrapeContent: If set to True, make sure you have the scraper folder path created and configured.
+
 RECON OPTIONS:
 - showFoundMessage: Display VBScript Message Box showing found content (True / False)
 - logCalls: True for verbose mode to log all target HTTP calls (True / False)
