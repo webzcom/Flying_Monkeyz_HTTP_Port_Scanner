@@ -22,6 +22,11 @@ MODES: Modes are set by true / false values in the configuration
 - Mass Scan: Runs a short scan on all IP addresses in the target IP's subnet
 - Note: If you run a mass scan, you'll need to set both Long and Short Scans to False until I can fix the code.
 
+SHORT SCAN SETTINGS:
+- commonPortsList: I've left two lines for the common ports list. 
+- A short list w/ port 80 only for use with mass scan to speed it up then longer list "80,443,5000,8080,32400,554,88,81,555,7447,8554,7070,10554,6667,8081,8090"
+- arrCommonPorts: Holds the array of common ports created from the list.
+
 LONG SCAN SETTINGS:
 - Step = 1: Controls the increment value of the loop (Use value of 2 for even ports & 3 for odd ports)
 - iStartPort = 1: Lowest Value is 1
@@ -33,8 +38,8 @@ TARGET INFORMATION
 - sTarget = "https://" & targetIP
 
 FILE PATHS:
-rootPath = "C:\scripts\01-Monkeyz"
-scrapePath = "C:\scripts\01-Monkeyz\scrape\"
+- rootPath = "C:\scripts\01-Monkeyz"
+- scrapePath = "C:\scripts\01-Monkeyz\scrape\"
 
 FILE READING / WRITING
 - strNewLine = Chr(13) & Chr(10)
@@ -49,9 +54,6 @@ RECON OPTIONS:
 - logCalls: True for verbose mode to log all target HTTP calls (True / False)
 - logOnEvery: If logCalls is True, you can set this value to only log on the 10th, 100th or 1000th call. Good for diagnostics info.
 - httpTimeout: Set at 500 for best performance.
-- commonPortsList: I've left two lines for the common ports list. 
-- A short list w/ port 80 only for use with mass scan to speed it up then longer list "80,443,5000,8080,32400,554,88,81,555,7447,8554,7070,10554,6667,8081,8090"
-- arrCommonPorts: Holds the array of common ports created from the list.
 
 HOW TO RUN:
   - To run, double click the .vbs file.
