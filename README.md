@@ -12,12 +12,46 @@ IMPORTANT!
 HOW TO CONFIGURE:
   - Use the script configuration variables to configure Flying Monkeyz.
   - Below are details of how to configure the script.
+
+DEFINE GLOBAL VARIABLES
  
 MODES: Modes are set by true / false values in the configuration 
 - Short Scan: Scans the most common ports from list
 - Long Scan: Scans all the ports from 1 t0 65000
 - Mass Scan: Runs a short scan on all IP addresses in the target IP's subnet
 - Note: If you run a mass scan, you'll need to set both Long and Short Scans to False until I can fix the code.
+
+LONG SCAN SETTINGS:
+- Step = 1: Controls the increment value of the loop (Use value of 2 for even ports & 3 for odd ports)
+- iStartPort = 1: Lowest Value is 1
+- iEndPort = 65536: Max HTTP port value is 65536
+
+TARGET INFORMATION
+- targetIP = "localhost" OR "158.58.184.47"
+- target = "http://" & targetIP
+- sTarget = "https://" & targetIP
+
+FILE PATHS:
+rootPath = "C:\scripts\01-Monkeyz"
+scrapePath = "C:\scripts\01-Monkeyz\scrape\"
+
+FILE READING / WRITING
+- strNewLine = Chr(13) & Chr(10)
+- outFile: Output file path
+- errorLogFile: Error log file path
+
+SCRAPER CONFIGURATION
+- doWeScrapeContent = "true"
+- 
+RECON OPTIONS:
+- showFoundMessage: Display VBScript Message Box showing found content (True / False)
+- logCalls: True for verbose mode to log all target HTTP calls (True / False)
+- logOnEvery: If logCalls is True, you can set this value to only log on the 10th, 100th or 1000th call. Good for diagnostics info.
+- httpTimeout: Set at 500 for best performance.
+- commonPortsList: I've left two lines for the common ports list. 
+- A short list w/ port 80 only for use with mass scan to speed it up then longer list "80,443,5000,8080,32400,554,88,81,555,7447,8554,7070,10554,6667,8081,8090"
+- arrCommonPorts: Holds the array of common ports created from the list.
+
 
 HOW TO RUN:
   - To run, double click the .vbs file.
