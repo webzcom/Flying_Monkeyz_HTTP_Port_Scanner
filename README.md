@@ -57,11 +57,8 @@ HOW TO RUN:
   - To run, double click the .vbs file.
   - Use Windows Task Manger to kill the wscript.exe manually
 
-Pop-Up Messages on Port Found:
-  -  When script hits a web page on a port #, the HTML will be displayed in a pop-up window and log the URL and HTTP status for that URL.
-
-Srape Found Content:
-  - Added in version 2.0, you can now configure a scraper path to save scraped data for all found pages.
+SCRAPER:
+  - Added in version 2.0, you can now configure the Flying Monkeyz scraper with a path to save scraped data for all found pages.
   - You might have to manually create the scraper folder that you configure until I get chance to test and refactor if needed.
 
 LOG FILES:
