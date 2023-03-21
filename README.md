@@ -27,7 +27,7 @@ LONG SCAN SETTINGS:
 - iEndPort = 65536: Max HTTP port value is 65536
 
 TARGET INFORMATION
-- targetIP = "localhost" OR "158.58.184.47"
+- targetIP = "localhost" OR "192.168.1.0"
 - target = "http://" & targetIP
 - sTarget = "https://" & targetIP
 
