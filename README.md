@@ -17,7 +17,7 @@ DEFINE GLOBAL VARIABLES
  
 MODES: Modes are set by true / false values in the configuration 
 - Short Scan: Scans the most common ports from list
-- Long Scan: Scans all the ports from 1 t0 65000
+- Long Scan: Scans all the ports from 1 to 65536
 - Mass Scan: Runs a short scan on all IP addresses in the target IP's subnet
 - Note: If you run a mass scan, you'll need to set both Long and Short Scans to False until I can fix the code.
 
