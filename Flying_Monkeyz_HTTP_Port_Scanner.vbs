@@ -6,8 +6,8 @@
 rootPath = "C:\scripts\01-Monkeyz"
 scrapePath = "C:\scripts\01-Monkeyz\scrape\"
 doWeScrapeContent = "true"
-targetIP = "localhost"
-'targetIP = "192.169.1.0"
+'targetIP = "localhost"
+targetIP = "192.169.1.0"
 target = "http://" & targetIP
 sTarget = "https://" & targetIP
 strNewLine = Chr(13) & Chr(10)
@@ -18,8 +18,8 @@ logCalls = False
 logOnEvery = 100
 'Example shows 10 * 10000 form miliseconds to seconds
 httpTimeout = 500
-'commonPortsList = "80,443,5000,8080,32400,554,88,81,555,1337,4840,7447,8554,7070,10554,6667,8081,8090,9100,19999"
-commonPortsList = "80"
+commonPortsList = "80,443,5000,8080,32400,554,88,81,555,1337,4840,7447,8554,7070,10554,6667,8081,8090,9100,19999"
+'commonPortsList = "80"
 arrCommonPorts = split(commonPortsList,",")
 iStep = 1
 iStartPort = 30001	'Max Value is 65535
