@@ -1,4 +1,5 @@
-'Flying Monkeyz Port Scanner by CyberAbyss
+'Flying Monkeyz Port Scanner
+'Author: Rick Cable (CyberAbyss)
 'Version 2.0 Alpha
 'Released for educational purposes without warranty
 
