@@ -1,6 +1,6 @@
 'Flying Monkeyz Port Scanner
 'Author: Rick Cable (CyberAbyss)
-'Version 2.0 Alpha
+'Version 2.1 Alpha
 'Released for educational purposes without warranty
 
 'Define global variables
@@ -11,7 +11,7 @@ doWeScrapeContent = "true"
 targetIP = "192.168.1.0"
 target = "http://" & targetIP
 sTarget = "https://" & targetIP
-strNewLine = Chr(13) & Chr(10)
+strNewLine = Chr(13) & Chr(,10)
 outFile = "log-" & targetIP & ".csv" 		'File Path
 errorLogFile = "error-log.csv"	'Error Log File Path
 showFoundMessage = false
@@ -21,6 +21,9 @@ logOnEvery = 100
 httpTimeout = 500
 commonPortsList = "80,81,88,443,5000,8080,32400,554,555,1337,4840,7447,8554,7070,10554,6667,8081,8090,9100,19999"
 'commonPortsList = "80"
+'Common target types
+strTargetTypes = "IIS,Windows IIS Server,webcamXP,Webcam"
+arrTargetTypes = Split(strTargetTypes,",")
 arrCommonPorts = split(commonPortsList,",")
 iStep = 1
 iStartPort = 444	'Max Value is 65535
