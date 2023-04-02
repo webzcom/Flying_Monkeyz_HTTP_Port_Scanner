@@ -21,10 +21,12 @@ logOnEvery = 100
 httpTimeout = 500
 commonPortsList = "80,81,88,443,5000,8080,32400,554,555,1337,4840,7447,8554,7070,10554,6667,8081,8090,9100,19999"
 'commonPortsList = "80"
+arrCommonPorts = split(commonPortsList,",")
 'Common target types
 strTargetTypes = "IIS,Windows IIS Server,webcamXP,Webcam"
 arrTargetTypes = Split(strTargetTypes,",")
-arrCommonPorts = split(commonPortsList,",")
+currentTargetType = ""
+
 iStep = 1
 iStartPort = 444	'Max Value is 65535
 iEndPort = 65536	'Max Value is 65536
