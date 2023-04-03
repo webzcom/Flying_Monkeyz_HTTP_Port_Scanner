@@ -9,7 +9,6 @@ scrapePath = "C:\scripts\01-Monkeyz\scrape\"
 doWeScrapeContent = "true"
 'targetIP = "localhost"
 targetIP = "192.168.1.0"
-targetIP = "109.233.191.0"
 target = "http://" & targetIP
 sTarget = "https://" & targetIP
 strNewLine = Chr(13) & Chr(10)
@@ -20,11 +19,11 @@ logCalls = False
 logOnEvery = 100
 'Example shows 10 * 10000 form miliseconds to seconds
 httpTimeout = 500
-commonPortsList = "80,81,88,443,5000,8080,32400,554,555,1337,4840,7447,8554,7070,10554,6667,8081,8090,9100,19999"
+commonPortsList = "80,81,88,443,5000,8080,32400,554,555,1024,1337,4840,7447,8554,7070,10554,6667,8081,8090,9100,19999"
 'commonPortsList = "80"
 arrCommonPorts = split(commonPortsList,",")
 'Common target types
-strTargetTypes = "IIS,Windows IIS Server,webcamXP,Webcam"
+strTargetTypes = "login,synology,IIS,Apache,webcamXP,Webcam,Webmail"
 arrTargetTypes = Split(strTargetTypes,",")
 currentTargetType = ""
 
@@ -153,25 +152,32 @@ Function isWebsiteOffline(strURL)
 	End If
 	
 	if isWebsiteOffline = False then
-		if doWeScrapeContent Then
-			'msgbox("Downloading " & strURL)
-			arrTempURL = Split(strURL,":")
-			DownLoadFile strURL, scrapePath & arrTempURL(1) & "-" & arrTempURL(2) & ".html"
-			'DownLoadFile strURL, scrapePath & Replace(Replace(Replace(strURL,".","-"),":80",""),"http://","") & ".html"
-		end if
-		
 		if showFoundMessage then
 			'Check to see if we can determine what type of site this is
 			For each item in arrTargetTypes
-				if InStr(item,http.responseText) > 0 Then
+				if InStr(item,http.responseText,1) > 0 Then
 					currentTargetType = item
 				end if
 			Next
+		end if		
+			
+		if doWeScrapeContent Then
+			'msgbox("Downloading " & strURL)
+			arrTempURL = Split(strURL,":")
+			if currentTargetType <> "" then
+				DownLoadFile strURL, scrapePath & arrTempURL(1) & "-" & arrTempURL(2) & "-" & currentTargetType & ".html"
+			Else
+				DownLoadFile strURL, scrapePath & arrTempURL(1) & "-" & arrTempURL(2) & ".html"
+			end if
+			
 		end if
+		
 		'LogEventCSV Now(),strURL,http.status
         LogEventCSV Now(),strURL,http.status & " found " & currentTargetType & "!"
 		currentTargetType = ""
 	end if
+
+		
 
 	'set WshShell = Nothing
 	Set http = Nothing	
