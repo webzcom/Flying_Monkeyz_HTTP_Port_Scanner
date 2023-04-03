@@ -9,9 +9,10 @@ scrapePath = "C:\scripts\01-Monkeyz\scrape\"
 doWeScrapeContent = "true"
 'targetIP = "localhost"
 targetIP = "192.168.1.0"
+targetIP = "109.233.191.0"
 target = "http://" & targetIP
 sTarget = "https://" & targetIP
-strNewLine = Chr(13) & Chr(,10)
+strNewLine = Chr(13) & Chr(10)
 outFile = "log-" & targetIP & ".csv" 		'File Path
 errorLogFile = "error-log.csv"	'Error Log File Path
 showFoundMessage = false
@@ -156,11 +157,17 @@ Function isWebsiteOffline(strURL)
 			DownLoadFile strURL, scrapePath & Replace(Replace(Replace(strURL,".","-"),":80",""),"http://","") & ".html"
 		end if
 		
-		if showFoundMessage then			
-			msgbox("Flying Monkeyz by CyberAbyss! v1.0 Beta" & strNewLine & strNewLine & strURL & " / Port #" & i & " Found! " & strNewLine & strNewLine & http.responseText)
+		if showFoundMessage then
+			'Check to see if we can determine what type of site this is
+			For each item in arrTargetTypes
+				if InStr(item,http.responseText) > 0 Then
+					currentTargetType = item
+				end if
+			Next
 		end if
 		'LogEventCSV Now(),strURL,http.status
-        LogEventCSV Now(),strURL,http.status & " found!"
+        LogEventCSV Now(),strURL,http.status & " found " & currentTargetType & "!"
+		currentTargetType = ""
 	end if
 
 	'set WshShell = Nothing
@@ -233,8 +240,6 @@ Sub DownloadFile(url,filePath)
         End If
     End If
 End Sub
-
-
 
 
 'Start processing commands here!
