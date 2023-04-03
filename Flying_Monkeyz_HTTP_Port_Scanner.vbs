@@ -9,8 +9,6 @@ scrapePath = "C:\scripts\01-Monkeyz\scrape\"
 doWeScrapeContent = "true"
 'targetIP = "localhost"
 targetIP = "192.168.1.0"
-targetIP = "109.233.191.0"
-'targetIP = "2.40.45.0"
 target = "http://" & targetIP
 sTarget = "https://" & targetIP
 strNewLine = Chr(13) & Chr(10)
@@ -25,7 +23,9 @@ commonPortsList = "80,81,88,443,5000,8080,32400,554,555,1024,1337,4840,7447,8554
 'commonPortsList = "80"
 arrCommonPorts = split(commonPortsList,",")
 'Common target types
-strTargetTypes = "synology,IIS,Apache,webcam,webcamXP,Webmail,NextFiber Monitoring"
+'تلگرام is Telegram in Persian
+'redirect_suffix is for QNAP NAS redirect page found 4/3/2024
+strTargetTypes = "Synology,IIS,Apache,webcam,webcamXP,Webmail,redirect_suffix,NextFiber Monitoring,nginx,router configuration,Login,تلگرام"
 arrTargetTypes = Split(strTargetTypes,",")
 currentTargetType = ""
 
