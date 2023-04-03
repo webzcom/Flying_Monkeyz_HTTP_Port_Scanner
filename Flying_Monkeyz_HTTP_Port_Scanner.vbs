@@ -9,6 +9,8 @@ scrapePath = "C:\scripts\01-Monkeyz\scrape\"
 doWeScrapeContent = "true"
 'targetIP = "localhost"
 targetIP = "192.168.1.0"
+targetIP = "109.233.191.0"
+'targetIP = "2.40.45.0"
 target = "http://" & targetIP
 sTarget = "https://" & targetIP
 strNewLine = Chr(13) & Chr(10)
@@ -23,7 +25,7 @@ commonPortsList = "80,81,88,443,5000,8080,32400,554,555,1024,1337,4840,7447,8554
 'commonPortsList = "80"
 arrCommonPorts = split(commonPortsList,",")
 'Common target types
-strTargetTypes = "login,synology,IIS,Apache,webcamXP,Webcam,Webmail"
+strTargetTypes = "synology,IIS,Apache,webcam,webcamXP,Webmail,NextFiber Monitoring"
 arrTargetTypes = Split(strTargetTypes,",")
 currentTargetType = ""
 
@@ -74,6 +76,7 @@ Sub LogEventCSV(strDate,strURL,strStatus)
 	'Only check HD space once a day
 	'if DatePart("h", Now) = 10 AND (DatePart("n", Now) > 42 AND DatePart("n", NOW) < 50)  then	'@10:05 Run this code
 	temp = strDate & "," & strURL & "," & strStatus
+	currentTargetType = ""
 
 	objFile.WriteLine(temp)
 	'objFile.WriteLine(temp2)
@@ -132,6 +135,7 @@ Function isWebsiteOffline(strURL)
 	'Set http = CreateObject("MSXML2.ServerXMLHTTP")
 	'Adding new version ServerXMLHTTP.6.0 so we can use the timeout options (only in version 3 & 6) 
 	Set http = CreateObject("Msxml2.ServerXMLHTTP.6.0")
+	currentTargetType = ""
 	lResolve = 5 * httpTimeout 
 	lConnect = 5 * httpTimeout  
 	lSend = 15 * httpTimeout 
@@ -153,19 +157,26 @@ Function isWebsiteOffline(strURL)
 	
 	if isWebsiteOffline = False then
 		if showFoundMessage then
-			'Check to see if we can determine what type of site this is
-			For each item in arrTargetTypes
-				if InStr(item,http.responseText,1) > 0 Then
-					currentTargetType = item
-				end if
-			Next
-		end if		
+			msgbox("Found!")
+		end if	
+
+		'Check to see if we can determine what type of site this is
+		For each item in arrTargetTypes
+			'msgbox(item)
+			if currentTargetType <> "" Then
+				Exit For
+			End if
+			if InStr(1,http.responseText,item,1) > 0 Then
+				currentTargetType = item
+			end if
+		Next		
 			
 		if doWeScrapeContent Then
 			'msgbox("Downloading " & strURL)
 			arrTempURL = Split(strURL,":")
 			if currentTargetType <> "" then
 				DownLoadFile strURL, scrapePath & arrTempURL(1) & "-" & arrTempURL(2) & "-" & currentTargetType & ".html"
+				currentTargetType = ""
 			Else
 				DownLoadFile strURL, scrapePath & arrTempURL(1) & "-" & arrTempURL(2) & ".html"
 			end if
@@ -198,6 +209,7 @@ Function runShortScan(target)
 		end if
 		call isWebsiteOffline(target & ":" & item)
 	Next
+	currentTargetType = ""
 End Function
 
 
@@ -213,14 +225,16 @@ Function runLongScan(target)
 			end if
 			call isWebsiteOffline(target & ":" & i)
 		Next
+		currentTargetType = ""
 End Function
 
 
 Function runMassScan(target)	
 	
-	For iLastOctet = 0 to 256
+	For iLastOctet = 129 to 256
 		'MsgBox(target & "." & iLastOctet)	
 		runShortScan(target & "." & iLastOctet)
+		currentTargetType = ""
 	Next
 	
 End Function
@@ -248,6 +262,7 @@ Sub DownloadFile(url,filePath)
             oStream.Close
         End If
     End If
+	currentTargetType = ""
 End Sub
 
 
