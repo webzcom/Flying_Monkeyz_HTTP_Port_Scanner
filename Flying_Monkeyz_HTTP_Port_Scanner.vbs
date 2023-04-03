@@ -154,7 +154,10 @@ Function isWebsiteOffline(strURL)
 	
 	if isWebsiteOffline = False then
 		if doWeScrapeContent Then
-			DownLoadFile strURL, scrapePath & Replace(Replace(Replace(strURL,".","-"),":80",""),"http://","") & ".html"
+			'msgbox("Downloading " & strURL)
+			arrTempURL = Split(strURL,":")
+			DownLoadFile strURL, scrapePath & arrTempURL(1) & "-" & arrTempURL(2) & ".html"
+			'DownLoadFile strURL, scrapePath & Replace(Replace(Replace(strURL,".","-"),":80",""),"http://","") & ".html"
 		end if
 		
 		if showFoundMessage then
@@ -240,6 +243,8 @@ Sub DownloadFile(url,filePath)
         End If
     End If
 End Sub
+
+
 
 
 'Start processing commands here!
