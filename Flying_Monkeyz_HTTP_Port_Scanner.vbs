@@ -231,7 +231,7 @@ End Function
 
 Function runMassScan(target)	
 	
-	For iLastOctet = 129 to 256
+	For iLastOctet = 0 to 256
 		'MsgBox(target & "." & iLastOctet)	
 		runShortScan(target & "." & iLastOctet)
 		currentTargetType = ""
