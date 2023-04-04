@@ -24,7 +24,7 @@ arrCommonPorts = split(commonPortsList,",")
 'Common target types
 'تلگرام is Telegram in Persian
 'redirect_suffix is for QNAP NAS redirect page found 4/3/2024
-strTargetTypes = "defaultwebpage.cgi,.asp?,index.js,Synology,IIS,Apache,webcam,webcamXP,Webmail,redirect_suffix,NextFiber Monitoring,nginx,router configuration,Network Security Appliance,Login,تلگرام"
+strTargetTypes = "SmarterMail,CentOS-WebPanel,defaultwebpage.cgi,.asp?,index.js,Synology,IIS,Apache,Plone,webcam,webcamXP,Webmail,redirect_suffix,NextFiber Monitoring,nginx,router configuration,Network Security Appliance,NAS,Login,Unknown Domain,Lucee 5,Coming Soon,تلگرام"
 arrTargetTypes = Split(strTargetTypes,",")
 currentTargetType = ""
 
@@ -47,9 +47,8 @@ Sub CreateLogFile(strFileName)
 		if strFileName = "error-log.csv" then
 			objFile.WriteLine("Date,Module,Error")
 		Else
-			objFile.WriteLine("Date,URL,Event/Repsonse")
-		end if
-		
+			objFile.WriteLine("Date,URL,Event/Repsonse,Target_Type")
+		end if		
 		objFile.Close
 	End If
 	ReportError("CreateLogFile")
@@ -175,15 +174,13 @@ Function isWebsiteOffline(strURL)
 				DownLoadFile strURL, scrapePath & arrTempURL(1) & "-" & arrTempURL(2) & "-" & currentTargetType & ".html"				
 			Else
 				DownLoadFile strURL, scrapePath & arrTempURL(1) & "-" & arrTempURL(2) & ".html"
-			end if
-			
+			end if			
 		end if
 		
 		'LogEventCSV Now(),strURL,http.status
-        LogEventCSV Now(),strURL,http.status & " found " & currentTargetType & "!"
+        LogEventCSV Now(),strURL,http.status & " found," & currentTargetType & "!"
 		currentTargetType = ""
-	end if
-		
+	end if		
 
 	'set WshShell = Nothing
 	Set http = Nothing	
@@ -228,7 +225,6 @@ Function runMassScan(target)
 		currentTargetType = ""
 	Next	
 End Function
-
 
 Sub DownloadFile(url,filePath)
     Dim WinHttpReq, attempts
