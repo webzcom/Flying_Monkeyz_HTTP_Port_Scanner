@@ -7,7 +7,6 @@
 rootPath = "C:\scripts\01-Monkeyz"
 scrapePath = "C:\scripts\01-Monkeyz\scrape\"
 doWeScrapeContent = "true"
-'targetIP = "localhost"
 targetIP = "192.168.1.0"
 target = "http://" & targetIP
 sTarget = "https://" & targetIP
@@ -25,7 +24,7 @@ arrCommonPorts = split(commonPortsList,",")
 'Common target types
 'تلگرام is Telegram in Persian
 'redirect_suffix is for QNAP NAS redirect page found 4/3/2024
-strTargetTypes = "Synology,IIS,Apache,webcam,webcamXP,Webmail,redirect_suffix,NextFiber Monitoring,nginx,router configuration,Login,تلگرام"
+strTargetTypes = "defaultwebpage.cgi,.asp?,index.js,Synology,IIS,Apache,webcam,webcamXP,Webmail,redirect_suffix,NextFiber Monitoring,nginx,router configuration,Network Security Appliance,Login,تلگرام"
 arrTargetTypes = Split(strTargetTypes,",")
 currentTargetType = ""
 
@@ -35,7 +34,6 @@ iEndPort = 65536	'Max Value is 65536
 isShortScan = False
 isLongScan = False
 isMassScan = True	'Mass Scan runs a short scan on all IP addresses in the target IP's subnet
-
 
 'Create log file in CSV format and seed header row
 Sub CreateLogFile(strFileName)
@@ -65,7 +63,6 @@ Sub ReportError(strFunction)
 		Err.Clear
 	End If
 End Sub
-
 
 'LogEventCSV: Called by MonitorUptime: Logs events in the csv file
 Sub LogEventCSV(strDate,strURL,strStatus)
@@ -175,8 +172,7 @@ Function isWebsiteOffline(strURL)
 			'msgbox("Downloading " & strURL)
 			arrTempURL = Split(strURL,":")
 			if currentTargetType <> "" then
-				DownLoadFile strURL, scrapePath & arrTempURL(1) & "-" & arrTempURL(2) & "-" & currentTargetType & ".html"
-				currentTargetType = ""
+				DownLoadFile strURL, scrapePath & arrTempURL(1) & "-" & arrTempURL(2) & "-" & currentTargetType & ".html"				
 			Else
 				DownLoadFile strURL, scrapePath & arrTempURL(1) & "-" & arrTempURL(2) & ".html"
 			end if
@@ -187,7 +183,6 @@ Function isWebsiteOffline(strURL)
         LogEventCSV Now(),strURL,http.status & " found " & currentTargetType & "!"
 		currentTargetType = ""
 	end if
-
 		
 
 	'set WshShell = Nothing
@@ -198,7 +193,6 @@ Function isWebsiteOffline(strURL)
 	end if
 	err.clear
 End Function
-
 
 Function runShortScan(target)
 	'Short Scan from List
@@ -211,7 +205,6 @@ Function runShortScan(target)
 	Next
 	currentTargetType = ""
 End Function
-
 
 Function runLongScan(target)
 	'Long Scan Loop
@@ -228,20 +221,16 @@ Function runLongScan(target)
 		currentTargetType = ""
 End Function
 
-
-Function runMassScan(target)	
-	
+Function runMassScan(target)		
 	For iLastOctet = 0 to 256
 		'MsgBox(target & "." & iLastOctet)	
 		runShortScan(target & "." & iLastOctet)
 		currentTargetType = ""
-	Next
-	
+	Next	
 End Function
 
 
 Sub DownloadFile(url,filePath)
-
     Dim WinHttpReq, attempts
     attempts = 3
     'On Error GoTo TryAgain
@@ -252,7 +241,6 @@ Sub DownloadFile(url,filePath)
         Set WinHttpReq = CreateObject("Microsoft.XMLHTTP")
         WinHttpReq.Open "GET", url, False
         WinHttpReq.send
-
         If WinHttpReq.Status = 200 Then
             Set oStream = CreateObject("ADODB.Stream")
             oStream.Open
@@ -264,9 +252,6 @@ Sub DownloadFile(url,filePath)
     End If
 	currentTargetType = ""
 End Sub
-
-
-
 
 'Start processing commands here!
 CreateLogFile("error-log.csv")
@@ -288,6 +273,5 @@ CreateLogFile(outfile)
 		target = arrTemp(0) & "." & arrTemp(1) & "." & arrTemp(2)
 		runMassScan(target)
 	end if
-
 
 msgbox("Completed port scan on " & target & " with port # " & i & ".")
