@@ -7,6 +7,7 @@
 rootPath = "C:\scripts\01-Monkeyz"
 scrapePath = "C:\scripts\01-Monkeyz\scrape\"
 doWeScrapeContent = "true"
+'targetIP = "localhost"
 targetIP = "192.168.1.0"
 target = "http://" & targetIP
 sTarget = "https://" & targetIP
@@ -23,8 +24,9 @@ commonPortsList = "80,81,88,443,5000,8080,32400,554,555,1024,1337,4840,7447,8554
 arrCommonPorts = split(commonPortsList,",")
 'Common target types
 'تلگرام is Telegram in Persian
-'redirect_suffix is for QNAP NAS redirect page found 4/3/2024
-strTargetTypes = "SmarterMail,CentOS-WebPanel,defaultwebpage.cgi,.asp?,index.js,Synology,IIS,Apache,Plone,webcam,webcamXP,Webmail,redirect_suffix,NextFiber Monitoring,nginx,router configuration,Network Security Appliance,NAS,Login,Unknown Domain,Lucee 5,Coming Soon,تلگرام"
+'luxteb is Iranian Medical Software Company. Found 4/4/2023
+'redirect_suffix is for QNAP NAS redirect page found 4/3/2023
+strTargetTypes = "SCADA,SmarterMail,Plesk,Nagios,CentOS-WebPanel,luxteb,Nexus Repository Manager,defaultwebpage.cgi,.asp?,index.js,Synology,IIS,Apache,Plone,webcam,webcamXP,Webmail,redirect_suffix,NextFiber Monitoring,nginx,router configuration,Network Security Appliance,NAS,Admin Panel,Unknown Domain,Lucee 5,Coming Soon,تلگرام,Login"
 arrTargetTypes = Split(strTargetTypes,",")
 currentTargetType = ""
 
@@ -48,7 +50,8 @@ Sub CreateLogFile(strFileName)
 			objFile.WriteLine("Date,Module,Error")
 		Else
 			objFile.WriteLine("Date,URL,Event/Repsonse,Target_Type")
-		end if		
+		end if
+		
 		objFile.Close
 	End If
 	ReportError("CreateLogFile")
@@ -174,13 +177,15 @@ Function isWebsiteOffline(strURL)
 				DownLoadFile strURL, scrapePath & arrTempURL(1) & "-" & arrTempURL(2) & "-" & currentTargetType & ".html"				
 			Else
 				DownLoadFile strURL, scrapePath & arrTempURL(1) & "-" & arrTempURL(2) & ".html"
-			end if			
+			end if
+			
 		end if
 		
 		'LogEventCSV Now(),strURL,http.status
         LogEventCSV Now(),strURL,http.status & " found," & currentTargetType & "!"
 		currentTargetType = ""
-	end if		
+	end if
+		
 
 	'set WshShell = Nothing
 	Set http = Nothing	
@@ -225,6 +230,7 @@ Function runMassScan(target)
 		currentTargetType = ""
 	Next	
 End Function
+
 
 Sub DownloadFile(url,filePath)
     Dim WinHttpReq, attempts
