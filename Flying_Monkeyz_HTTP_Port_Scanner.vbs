@@ -7,7 +7,6 @@
 rootPath = "C:\scripts\01-Monkeyz"
 scrapePath = "C:\scripts\01-Monkeyz\scrape\"
 doWeScrapeContent = "true"
-'targetIP = "localhost"
 targetIP = "192.168.1.0"
 target = "http://" & targetIP
 sTarget = "https://" & targetIP
@@ -26,7 +25,7 @@ arrCommonPorts = split(commonPortsList,",")
 'تلگرام is Telegram in Persian
 'luxteb is Iranian Medical Software Company. Found 4/4/2023
 'redirect_suffix is for QNAP NAS redirect page found 4/3/2023
-strTargetTypes = "SCADA,SmarterMail,Plesk,Nagios,CentOS-WebPanel,luxteb,Nexus Repository Manager,defaultwebpage.cgi,.asp?,index.js,Synology,IIS,Apache,Plone,webcam,webcamXP,Webmail,redirect_suffix,NextFiber Monitoring,nginx,router configuration,Network Security Appliance,NAS,Admin Panel,Unknown Domain,Lucee 5,Coming Soon,تلگرام,Login"
+strTargetTypes = "SCADA,SmarterMail,Plesk,Nagios,CentOS-WebPanel,luxteb,popper.js,Nexus Repository Manager,defaultwebpage.cgi,.asp?,index.js,Synology,IIS,Apache,Plone,webcam,webcamXP,Webmail,redirect_suffix,NextFiber Monitoring,nginx,router configuration,Network Security Appliance,NAS,Admin Panel,IKCard Web Mail,Unknown Domain,Lucee 5,NETSurveillance,WEB SERVICE,Bootstrap Theme,Coming Soon,تلگرام,ASP.NET,Login"
 arrTargetTypes = Split(strTargetTypes,",")
 currentTargetType = ""
 
