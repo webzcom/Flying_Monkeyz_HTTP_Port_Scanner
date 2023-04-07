@@ -7,6 +7,7 @@
 rootPath = "C:\scripts\01-Monkeyz"
 scrapePath = "C:\scripts\01-Monkeyz\scrape\"
 doWeScrapeContent = "true"
+'targetIP = "localhost"
 targetIP = "192.168.1.0"
 target = "http://" & targetIP
 sTarget = "https://" & targetIP
@@ -23,16 +24,17 @@ commonPortsList = "80,81,88,443,5000,8080,32400,554,555,1024,1337,4840,7447,8554
 arrCommonPorts = split(commonPortsList,",")
 'Common target types
 'تلگرام is Telegram in Persian
+'Пустая страница is Empty Page in Russian
 'luxteb is Iranian Medical Software Company. Found 4/4/2023
 'redirect_suffix is for QNAP NAS redirect page found 4/3/2023
-strTargetTypes = "SCADA,SmarterMail,Plesk,Nagios,CentOS-WebPanel,luxteb,popper.js,Nexus Repository Manager,defaultwebpage.cgi,.asp?,index.js,Synology,IIS,Apache,Plone,webcam,webcamXP,Webmail,redirect_suffix,NextFiber Monitoring,nginx,router configuration,Network Security Appliance,NAS,Admin Panel,IKCard Web Mail,Unknown Domain,Lucee 5,NETSurveillance,WEB SERVICE,Bootstrap Theme,Coming Soon,تلگرام,ASP.NET,Login"
+strTargetTypes = "SCADA,SmarterMail,Plesk,Nagios,The Shadowserver Foundation,Georgia Institute of Technology,CentOS-WebPanel,PHP Version,luxteb,popper.js,Nexus Repository Manager,hospital,ISPmanager,defaultwebpage.cgi,.asp?,index.js,Synology,IIS,Apache,Node Exporter,Plone,webcam,webcamXP,Webmail,redirect_suffix,NextFiber Monitoring,nginx,router configuration,Network Security Appliance, NAS,Admin Panel,IKCard Web Mail,Amazon ECS,Unknown Domain,Lucee 5,NETSurveillance,WEB SERVICE,Bootstrap Theme,Blog,Coming Soon,Your new web server,تلگرام,ASP.NET,You need to enable JavaScript,Пустая страница,Login"
 arrTargetTypes = Split(strTargetTypes,",")
 currentTargetType = ""
 
 iStep = 1
 iStartPort = 444	'Max Value is 65535
 iEndPort = 65536	'Max Value is 65536
-isShortScan = False
+isShortScan = True
 isLongScan = False
 isMassScan = True	'Mass Scan runs a short scan on all IP addresses in the target IP's subnet
 
