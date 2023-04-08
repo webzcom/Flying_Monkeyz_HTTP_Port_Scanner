@@ -1,13 +1,12 @@
 'Flying Monkeyz Port Scanner
 'Author: Rick Cable (CyberAbyss)
-'Version 2.1 Alpha
+'Version 2.5 Alpha
 'Released for educational purposes without warranty
 
 'Define global variables
 rootPath = "C:\scripts\01-Monkeyz"
 scrapePath = "C:\scripts\01-Monkeyz\scrape\"
 doWeScrapeContent = "true"
-'targetIP = "localhost"
 targetIP = "192.168.1.0"
 target = "http://" & targetIP
 sTarget = "https://" & targetIP
@@ -25,16 +24,19 @@ arrCommonPorts = split(commonPortsList,",")
 'Common target types
 'تلگرام is Telegram in Persian
 'Пустая страница is Empty Page in Russian
+'торрент трекер is torrent tracker in Russian
 'luxteb is Iranian Medical Software Company. Found 4/4/2023
 'redirect_suffix is for QNAP NAS redirect page found 4/3/2023
-strTargetTypes = "SCADA,SmarterMail,Plesk,Nagios,The Shadowserver Foundation,Georgia Institute of Technology,CentOS-WebPanel,PHP Version,luxteb,popper.js,Nexus Repository Manager,hospital,ISPmanager,defaultwebpage.cgi,.asp?,index.js,Synology,IIS,Apache,Node Exporter,Plone,webcam,webcamXP,Webmail,redirect_suffix,NextFiber Monitoring,nginx,router configuration,Network Security Appliance, NAS,Admin Panel,IKCard Web Mail,Amazon ECS,Unknown Domain,Lucee 5,NETSurveillance,WEB SERVICE,Bootstrap Theme,Blog,Coming Soon,Your new web server,تلگرام,ASP.NET,You need to enable JavaScript,Пустая страница,Login"
+strTargetTypes = "Tor Exit Server,SCADA,Swagger UI,SmarterMail,Plesk,Nagios,HTTP Parrot,Welcome to CentOS,Index of,listing:,Ruby on Rails,Tor Exit Router,The Shadowserver Foundation,Georgia Institute of Technology,CentOS-WebPanel,PHP Version,luxteb,popper.js,Nexus Repository Manager,hospital,ISPmanager,defaultwebpage.cgi,.asp?,index.js,Synology,IIS,Apache,Node Exporter,Plone,webcam,webcamXP,Webmail,redirect_suffix,NextFiber Monitoring,Nexcess,nginx,router configuration,Network Security Appliance, NAS,Admin Panel,IKCard Web Mail,Amazon ECS,Unknown Domain,Lucee 5,NETSurveillance,WEB SERVICE,Bootstrap Theme,Blog,Coming Soon,Droplet,Your new web server,تلگرام,ASP.NET,Video Collection,You need to enable JavaScript,Пустая страница,торрент трекер,qBittorrent,Shared IP,没有找到站点,Login,content is to be added"
 arrTargetTypes = Split(strTargetTypes,",")
+strDoNotScrapeList = "nginx,qBittorrent,Apache,Node Exporter,没有找到站点"
+arrDoNotScrapeList = Split(strDoNotScrapeList,",")
 currentTargetType = ""
 
 iStep = 1
 iStartPort = 444	'Max Value is 65535
 iEndPort = 65536	'Max Value is 65536
-isShortScan = True
+isShortScan = False
 isLongScan = False
 isMassScan = True	'Mass Scan runs a short scan on all IP addresses in the target IP's subnet
 
@@ -170,9 +172,16 @@ Function isWebsiteOffline(strURL)
 				currentTargetType = item
 			end if
 		Next		
+		
+		'do not scrape these types
+		for each item in arrDoNotScrapeList
+			if item = currentTargetType Then
+				doWeScrapeContent = false
+			end if
+		next	
 			
 		if doWeScrapeContent Then
-			'msgbox("Downloading " & strURL)
+			'msgbox("Downloading " & strURL)		
 			arrTempURL = Split(strURL,":")
 			if currentTargetType <> "" then
 				DownLoadFile strURL, scrapePath & arrTempURL(1) & "-" & arrTempURL(2) & "-" & currentTargetType & ".html"				
