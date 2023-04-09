@@ -3,15 +3,31 @@
 'Version 2.5 Alpha
 'Released for educational purposes without warranty
 
+'Ask for User Input
+strUserSelectedIP = InputBox("Target IP address:", "Target IP")
+'strUserSelectedScanType = InputBox("Type of scan? (Short, Long or Mass)", "Scan Type - S, L or M")
+
 'Define global variables
+
 rootPath = "C:\scripts\01-Monkeyz"
 scrapePath = "C:\scripts\01-Monkeyz\scrape\"
+scanPath = "C:\scripts\01-Monkeyz\scans\"
+
 doWeScrapeContent = "true"
+'targetIP = "localhost"
 targetIP = "192.168.1.0"
+targetIP = "109.233.191.0"
+'targetIP = "209.141.54.0"
+targetIP = "44.210.250.0"
+
+if strUserSelectedIP <> "" Then
+	targetIP = strUserSelectedIP
+end if
+
 target = "http://" & targetIP
 sTarget = "https://" & targetIP
 strNewLine = Chr(13) & Chr(10)
-outFile = "log-" & targetIP & ".csv" 		'File Path
+outFile = scanPath & "log-" & targetIP & ".csv" 		'File Path
 errorLogFile = "error-log.csv"	'Error Log File Path
 showFoundMessage = false
 logCalls = False
@@ -29,7 +45,7 @@ arrCommonPorts = split(commonPortsList,",")
 'redirect_suffix is for QNAP NAS redirect page found 4/3/2023
 strTargetTypes = "Tor Exit Server,SCADA,Swagger UI,SmarterMail,Plesk,Nagios,HTTP Parrot,Welcome to CentOS,Index of,listing:,Ruby on Rails,Tor Exit Router,The Shadowserver Foundation,Georgia Institute of Technology,CentOS-WebPanel,PHP Version,luxteb,popper.js,Nexus Repository Manager,hospital,ISPmanager,defaultwebpage.cgi,.asp?,index.js,Synology,IIS,Apache,Node Exporter,Plone,webcam,webcamXP,Webmail,redirect_suffix,NextFiber Monitoring,Nexcess,nginx,router configuration,Network Security Appliance, NAS,Admin Panel,IKCard Web Mail,Amazon ECS,Unknown Domain,Lucee 5,NETSurveillance,WEB SERVICE,Bootstrap Theme,Blog,Coming Soon,Droplet,Your new web server,تلگرام,ASP.NET,Video Collection,You need to enable JavaScript,Пустая страница,торрент трекер,qBittorrent,Shared IP,没有找到站点,Login,content is to be added"
 arrTargetTypes = Split(strTargetTypes,",")
-strDoNotScrapeList = "nginx,qBittorrent,Apache,Node Exporter,没有找到站点"
+strDoNotScrapeList = "nginx,qBittorrent,Apache,Node Exporter,Shared IP,Coming Soon,defaultwebpage.cgi,Plesk,Welcome to CentOS,没有找到站点"
 arrDoNotScrapeList = Split(strDoNotScrapeList,",")
 currentTargetType = ""
 
