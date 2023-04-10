@@ -13,12 +13,8 @@ rootPath = "C:\scripts\01-Monkeyz"
 scrapePath = "C:\scripts\01-Monkeyz\scrape\"
 scanPath = "C:\scripts\01-Monkeyz\scans\"
 
-doWeScrapeContent = "true"
-'targetIP = "localhost"
+
 targetIP = "192.168.1.0"
-targetIP = "109.233.191.0"
-'targetIP = "209.141.54.0"
-targetIP = "44.210.250.0"
 
 if strUserSelectedIP <> "" Then
 	targetIP = strUserSelectedIP
@@ -34,7 +30,7 @@ logCalls = False
 logOnEvery = 100
 'Example shows 10 * 10000 form miliseconds to seconds
 httpTimeout = 500
-commonPortsList = "80,81,88,443,5000,8080,32400,554,555,1024,1337,4840,7447,8554,7070,10554,6667,8081,8090,9100,19999"
+commonPortsList = "80,81,88,443,1337,5000,8080,32400,554,555,1024,1337,4840,7447,8554,7070,10554,6667,8081,8090,9100,19999"
 'commonPortsList = "80"
 arrCommonPorts = split(commonPortsList,",")
 'Common target types
@@ -43,11 +39,12 @@ arrCommonPorts = split(commonPortsList,",")
 'торрент трекер is torrent tracker in Russian
 'luxteb is Iranian Medical Software Company. Found 4/4/2023
 'redirect_suffix is for QNAP NAS redirect page found 4/3/2023
-strTargetTypes = "Tor Exit Server,SCADA,Swagger UI,SmarterMail,Plesk,Nagios,HTTP Parrot,Welcome to CentOS,Index of,listing:,Ruby on Rails,Tor Exit Router,The Shadowserver Foundation,Georgia Institute of Technology,CentOS-WebPanel,PHP Version,luxteb,popper.js,Nexus Repository Manager,hospital,ISPmanager,defaultwebpage.cgi,.asp?,index.js,Synology,IIS,Apache,Node Exporter,Plone,webcam,webcamXP,Webmail,redirect_suffix,NextFiber Monitoring,Nexcess,nginx,router configuration,Network Security Appliance, NAS,Admin Panel,IKCard Web Mail,Amazon ECS,Unknown Domain,Lucee 5,NETSurveillance,WEB SERVICE,Bootstrap Theme,Blog,Coming Soon,Droplet,Your new web server,تلگرام,ASP.NET,Video Collection,You need to enable JavaScript,Пустая страница,торрент трекер,qBittorrent,Shared IP,没有找到站点,Login,content is to be added"
+strTargetTypes = "Tor Exit Server,SCADA,Swagger UI,SmarterMail,Plesk,Nagios,HTTP Parrot,Welcome to CentOS,Index of,listing:,Client sent an HTTP request to an HTTPS server,Ruby on Rails,Tor Exit Router,The Shadowserver Foundation,Georgia Institute of Technology,CentOS-WebPanel,PHP Version,luxteb,popper.js,Nexus Repository Manager,hospital,ISPmanager,defaultwebpage.cgi,.asp?,index.js,Synology,IIS,Apache,Node Exporter,Plone,webcam,webcamXP,Webmail,redirect_suffix,NextFiber Monitoring,Nexcess,nginx,router configuration,Network Security Appliance, NAS,Admin Panel,IKCard Web Mail,Amazon ECS,Unknown Domain,Lucee 5,NETSurveillance,WEB SERVICE,Bootstrap Theme,Blog,Coming Soon,Droplet,Your new web server,تلگرام,ASP.NET,Video Collection,You need to enable JavaScript,Пустая страница,торрент трекер,CTF platform,qBittorrent,Shared IP,没有找到站点,Login,content is to be added"
 arrTargetTypes = Split(strTargetTypes,",")
 strDoNotScrapeList = "nginx,qBittorrent,Apache,Node Exporter,Shared IP,Coming Soon,defaultwebpage.cgi,Plesk,Welcome to CentOS,没有找到站点"
 arrDoNotScrapeList = Split(strDoNotScrapeList,",")
 currentTargetType = ""
+doWeScrapeContent = "true"
 
 iStep = 1
 iStartPort = 444	'Max Value is 65535
@@ -136,7 +133,7 @@ End Function
 Function isWebsiteOffline(strURL)
 	On Error Resume Next
 	
-	if InStr(strURL, ":443") > 0 Then
+	if InStr(strURL, ":443") > 0 OR InStr(strURL, ":1337") Then
 		strURL = Replace(strURL,"http","https")
 	end if
 	'Set WshShell = WScript.CreateObject("WScript.Shell")
