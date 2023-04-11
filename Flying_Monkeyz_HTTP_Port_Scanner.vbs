@@ -1,6 +1,6 @@
 'Flying Monkeyz Port Scanner
 'Author: Rick Cable (CyberAbyss)
-'Version 2.5 Alpha
+'Version 1.0 Beta
 'Released for educational purposes without warranty
 
 'Ask for User Input
@@ -12,7 +12,6 @@ strUserSelectedIP = InputBox("Target IP address:", "Target IP")
 rootPath = "C:\scripts\01-Monkeyz"
 scrapePath = "C:\scripts\01-Monkeyz\scrape\"
 scanPath = "C:\scripts\01-Monkeyz\scans\"
-
 
 targetIP = "192.168.1.0"
 
@@ -39,12 +38,13 @@ arrCommonPorts = split(commonPortsList,",")
 'торрент трекер is torrent tracker in Russian
 'luxteb is Iranian Medical Software Company. Found 4/4/2023
 'redirect_suffix is for QNAP NAS redirect page found 4/3/2023
-strTargetTypes = "Tor Exit Server,SCADA,Swagger UI,SmarterMail,Plesk,Nagios,HTTP Parrot,Welcome to CentOS,Index of,listing:,Client sent an HTTP request to an HTTPS server,Ruby on Rails,Tor Exit Router,The Shadowserver Foundation,Georgia Institute of Technology,CentOS-WebPanel,PHP Version,luxteb,popper.js,Nexus Repository Manager,hospital,ISPmanager,defaultwebpage.cgi,.asp?,index.js,Synology,IIS,Apache,Node Exporter,Plone,webcam,webcamXP,Webmail,redirect_suffix,NextFiber Monitoring,Nexcess,nginx,router configuration,Network Security Appliance, NAS,Admin Panel,IKCard Web Mail,Amazon ECS,Unknown Domain,Lucee 5,NETSurveillance,WEB SERVICE,Bootstrap Theme,Blog,Coming Soon,Droplet,Your new web server,تلگرام,ASP.NET,Video Collection,You need to enable JavaScript,Пустая страница,торрент трекер,CTF platform,qBittorrent,Shared IP,没有找到站点,Login,content is to be added"
+strTargetTypes = "Tor Exit Server,SCADA,Swagger UI,SmarterMail,OctoPos,phpMyAdmin,Looking Glass Point,Plesk,OoklaServer,Nagios,HTTP Parrot,Welcome to CentOS,Index of,payment method,listing:,Client sent an HTTP request to an HTTPS server,Ruby on Rails,Tor Exit Router,The Shadowserver Foundation,Georgia Institute of Technology,CentOS-WebPanel,PHP Version,luxteb,popper.js,Nexus Repository Minecraft Server,Manager,hospital,ISPmanager,defaultwebpage.cgi,.asp?,index.js,Synology,IIS,Apache,Node Exporter,Plone,webcam,webcamXP,Webmail,redirect_suffix,NextFiber Monitoring,Nexcess,nginx,router configuration,Network Security Appliance, NAS,Admin Panel,IKCard Web Mail,Amazon ECS,Unknown Domain,Lucee,ZITADEL • Console,OpenResty,NETSurveillance,WEB SERVICE,Bootstrap Theme,Blog,Coming Soon,Droplet,Your new web server,تلگرام,ASP.NET,Video Collection,You need to enable JavaScript,Пустая страница,торрент трекер,CTF platform,qBittorrent,Shared IP,没有找到站点,webui,Login,content is to be added"
 arrTargetTypes = Split(strTargetTypes,",")
-strDoNotScrapeList = "nginx,qBittorrent,Apache,Node Exporter,Shared IP,Coming Soon,defaultwebpage.cgi,Plesk,Welcome to CentOS,没有找到站点"
+doWeScrapeContent = "true"
+strDoNotScrapeList = "nginx,qBittorrent,Apache,Node Exporter,Shared IP,Coming Soon,defaultwebpage.cgi,Plesk,Unknown Domain,Welcome to CentOS,没有找到站点"
 arrDoNotScrapeList = Split(strDoNotScrapeList,",")
 currentTargetType = ""
-doWeScrapeContent = "true"
+currentHTTPStatus = ""
 
 iStep = 1
 iStartPort = 444	'Max Value is 65535
@@ -188,6 +188,9 @@ Function isWebsiteOffline(strURL)
 		
 		'do not scrape these types
 		for each item in arrDoNotScrapeList
+			if currentTargetType = "" then
+				doWeScrapeContent = true
+			end if
 			if item = currentTargetType Then
 				doWeScrapeContent = false
 			end if
@@ -266,6 +269,13 @@ Sub DownloadFile(url,filePath)
         Set WinHttpReq = CreateObject("Microsoft.XMLHTTP")
         WinHttpReq.Open "GET", url, False
         WinHttpReq.send
+		currentHTTPStatus = WinHttpReq.Status
+		'if currentHTTPStatus = 400 Then
+			'Try with HTTPS
+		'	tempURL = Replace(url,"http","https")
+		'	DownloadFile tempURL,filePath
+		'end if
+		
         If WinHttpReq.Status = 200 Then
             Set oStream = CreateObject("ADODB.Stream")
             oStream.Open
