@@ -1,6 +1,6 @@
 'Flying Monkeyz Port Scanner
 'Author: Rick Cable (CyberAbyss)
-'Version 1.0 Beta
+'Version 1.1 Beta
 'Released for educational purposes without warranty
 
 'Ask for User Input
@@ -38,10 +38,10 @@ arrCommonPorts = split(commonPortsList,",")
 'торрент трекер is torrent tracker in Russian
 'luxteb is Iranian Medical Software Company. Found 4/4/2023
 'redirect_suffix is for QNAP NAS redirect page found 4/3/2023
-strTargetTypes = "Tor Exit Server,SCADA,Swagger UI,SmarterMail,OctoPos,phpMyAdmin,Looking Glass Point,Plesk,OoklaServer,Nagios,HTTP Parrot,Welcome to CentOS,Index of,payment method,listing:,Client sent an HTTP request to an HTTPS server,Ruby on Rails,Tor Exit Router,The Shadowserver Foundation,Georgia Institute of Technology,CentOS-WebPanel,PHP Version,luxteb,popper.js,Nexus Repository Minecraft Server,Manager,hospital,ISPmanager,defaultwebpage.cgi,.asp?,index.js,Synology,IIS,Apache,Node Exporter,Plone,webcam,webcamXP,Webmail,redirect_suffix,NextFiber Monitoring,Nexcess,nginx,router configuration,Network Security Appliance, NAS,Admin Panel,IKCard Web Mail,Amazon ECS,Unknown Domain,Lucee,ZITADEL • Console,OpenResty,NETSurveillance,WEB SERVICE,Bootstrap Theme,Blog,Coming Soon,Droplet,Your new web server,تلگرام,ASP.NET,Video Collection,You need to enable JavaScript,Пустая страница,торрент трекер,CTF platform,qBittorrent,Shared IP,没有找到站点,webui,Login,content is to be added"
+strTargetTypes = "PowerMTA,Wowza Media Server,Wowza Streaming Engine,Tor Exit Server,DD-WRT Control Panel,Blue Iris,SCADA,Swagger UI,SmarterMail,Keycloak,OctoPos,docker,Nginx Proxy Manager,phpMyAdmin,Looking Glass Point,Plesk,OoklaServer,Nagios,HTTP Parrot,Welcome to CentOS,Index of,payment method,listing:,Client sent an HTTP request to an HTTPS server,Ruby on Rails,Tor Exit Router,The Shadowserver Foundation,Georgia Institute of Technology,CentOS-WebPanel,PHP Version,luxteb,popper.js,Nexus Repository Minecraft Server,hospital,ISPmanager,defaultwebpage.cgi,.asp?,index.js,Synology,IIS,Apache,Node Exporter,Plone,webcam,webcamXP,Webmail,redirect_suffix,NextFiber Monitoring,Nexcess,nginx,router configuration,Network Security Appliance, NAS,Admin Panel,IKCard Web Mail,Amazon ECS,Unknown Domain,Lucee,ZITADEL • Console,OpenResty,NETSurveillance,WEB SERVICE,Bootstrap Theme,Blog,Coming Soon,Droplet,Your new web server,تلگرام,ASP.NET,Video Collection,Wowza Streaming Engine,You need to enable JavaScript,Пустая страница,торрент трекер,CTF platform,qBittorrent,Shared IP,没有找到站点,webui,XFINITY,Calix Home Gateway,money-saving offers,laravel,Login,Lorem ipsum,Page not found,Manager,content is to be added"
 arrTargetTypes = Split(strTargetTypes,",")
 doWeScrapeContent = "true"
-strDoNotScrapeList = "nginx,qBittorrent,Apache,Node Exporter,Shared IP,Coming Soon,defaultwebpage.cgi,Plesk,Unknown Domain,Welcome to CentOS,没有找到站点"
+strDoNotScrapeList = "nginx,laravel,CentOS-WebPanel,IIS,qBittorrent,Apache,Node Exporter,Shared IP,Droplet,Coming Soon,webui,defaultwebpage.cgi,money-saving offers,Plesk,Unknown Domain,Welcome to CentOS,没有找到站点"
 arrDoNotScrapeList = Split(strDoNotScrapeList,",")
 currentTargetType = ""
 currentHTTPStatus = ""
@@ -192,6 +192,9 @@ Function isWebsiteOffline(strURL)
 				doWeScrapeContent = true
 			end if
 			if item = currentTargetType Then
+				doWeScrapeContent = false
+			end if
+			if Len(http.responseText) < 40 Then
 				doWeScrapeContent = false
 			end if
 		next	
