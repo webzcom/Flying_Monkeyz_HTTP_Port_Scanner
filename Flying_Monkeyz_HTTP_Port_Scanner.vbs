@@ -1,6 +1,6 @@
 'Flying Monkeyz Port Scanner
 'Author: Rick Cable (CyberAbyss)
-'Version 1.1 Beta
+'Version 1.2 Beta
 'Released for educational purposes without warranty
 
 'Ask for User Input
@@ -39,13 +39,14 @@ arrCommonPorts = split(commonPortsList,",")
 'торрент трекер is torrent tracker in Russian
 'luxteb is Iranian Medical Software Company. Found 4/4/2023
 'redirect_suffix is for QNAP NAS redirect page found 4/3/2023
-strTargetTypes = "relay for the Tor Network,AutoSMTP,PowerMTA,Wowza Media Server,Wowza Streaming Engine,Tor Exit Server,DD-WRT Control Panel,Blue Iris,SCADA,Swagger UI,SmarterMail,Keycloak,OctoPos,docker,Nginx Proxy Manager,phpMyAdmin,Looking Glass Point,Plesk,OoklaServer,Nagios,HTTP Parrot,Welcome to CentOS,Index of,payment method,listing:,Client sent an HTTP request to an HTTPS server,Ruby on Rails,Tor Exit Router,The Shadowserver Foundation,Georgia Institute of Technology,CentOS-WebPanel,PHP Version,luxteb,popper.js,Nexus Repository Minecraft Server,hospital,ISPmanager,defaultwebpage.cgi,.asp?,index.js,Synology,IIS,Apache,Node Exporter,Plone,webcam,webcamXP,Webmail,redirect_suffix,NextFiber Monitoring,Nexcess,nginx,router configuration,Network Security Appliance, NAS,Admin Panel,IKCard Web Mail,Amazon ECS,Unknown Domain,Lucee,ZITADEL • Console,OpenResty,NETSurveillance,WEB SERVICE,Bootstrap Theme,Blog,Coming Soon,Droplet,Your new web server,تلگرام,ASP.NET,Video Collection,Wowza Streaming Engine,You need to enable JavaScript,Пустая страница,торрент трекер,CTF platform,qBittorrent,Shared IP,没有找到站点,没有找到站点,webui,XFINITY,Calix Home Gateway,money-saving offers,laravel,Login,Lorem ipsum,Page not found,Manager,content is to be added,document.location.href"
+strTargetTypes = "relay for the Tor Network,TURN Server,Directory listing for,AutoSMTP,PowerMTA,Adminer,Wowza Media Server,Wowza Streaming Engine,Tor Exit Server,DD-WRT Control Panel,Blue Iris,SCADA,Swagger UI,SmarterMail,Keycloak,OctoPos,docker,Nginx Proxy Manager,phpMyAdmin,Looking Glass Point,Plesk,OoklaServer,Nagios,HTTP Parrot,Welcome to CentOS,Index of,payment method,listing:,Client sent an HTTP request to an HTTPS server,Ruby on Rails,Tor Exit Router,The Shadowserver Foundation,Georgia Institute of Technology,CentOS-WebPanel,PHP Version,luxteb,popper.js,Nexus Repository Minecraft Server,hospital,ISPmanager,defaultwebpage.cgi,.asp?,index.js,Synology,IIS,Apache,Node Exporter,Plone,webcam,webcamXP,Webmail,redirect_suffix,NextFiber Monitoring,Nexcess,nginx,router configuration,Network Security Appliance, NAS,Admin Panel,IKCard Web Mail,Amazon ECS,Unknown Domain,Lucee,ZITADEL • Console,OpenResty,NETSurveillance,WEB SERVICE,Bootstrap Theme,Blog,Coming Soon,Droplet,Your new web server,تلگرام,ASP.NET,Video Collection,Wowza Streaming Engine,You need to enable JavaScript,Пустая страница,торрент трекер,CTF platform,qBittorrent,Shared IP,没有找到站点,没有找到站点,webui,XFINITY,Calix Home Gateway,money-saving offers,laravel,ListAllMyBucketsResult,Cloudflare network,LeakIX scanning network,Login,Site Not Found,Lorem ipsum,Page not found,Manager,content is to be added,document.location.href"
 arrTargetTypes = Split(strTargetTypes,",")
 doWeScrapeContent = "true"
-strDoNotScrapeList = "AutoSMTP,nginx,laravel,CentOS-WebPanel,IIS,qBittorrent,Apache,Node Exporter,Shared IP,Droplet,Coming Soon,webui,defaultwebpage.cgi,money-saving offers,Plesk,Unknown Domain,Your new web server,Welcome to CentOS,没有找到站点,没有找到站点,document.location.href"
+strDoNotScrapeList = "AutoSMTP,Cloudflare network,nginx,laravel,CentOS-WebPanel,IIS,qBittorrent,Apache,Node Exporter,Shared IP,Droplet,Coming Soon,webui,defaultwebpage.cgi,money-saving offers,Plesk,Unknown Domain,Your new web server,Welcome to CentOS,没有找到站点,没有找到站点,Nginx Proxy Manager,document.location.href"
 arrDoNotScrapeList = Split(strDoNotScrapeList,",")
 currentTargetType = ""
 currentHTTPStatus = ""
+currentPageTitle = ""
 
 iStep = 1
 iStartPort = 444	'Max Value is 65535
@@ -66,7 +67,7 @@ Sub CreateLogFile(strFileName)
 		if strFileName = "error-log.csv" then
 			objFile.WriteLine("Date,Module,Error")
 		Else
-			objFile.WriteLine("Date,URL,Event/Repsonse,Target_Type")
+			objFile.WriteLine("Date,URL,Title,Event/Repsonse,Target_Type")
 		end if
 		
 		objFile.Close
@@ -84,14 +85,14 @@ Sub ReportError(strFunction)
 End Sub
 
 'LogEventCSV: Called by MonitorUptime: Logs events in the csv file
-Sub LogEventCSV(strDate,strURL,strStatus)
+Sub LogEventCSV(strDate,strURL,strPageTitle,strStatus)
 	'Create the File System Object
 	Set objFSO = CreateObject("Scripting.FileSystemObject")
 	Set objFile = objFSO.OpenTextFile(outfile, 8)	'8 = ForAppending https://technet.microsoft.com/en-us/library/ee198716.aspx
 	'Don't check the HD space on every pass
 	'Only check HD space once a day
 	'if DatePart("h", Now) = 10 AND (DatePart("n", Now) > 42 AND DatePart("n", NOW) < 50)  then	'@10:05 Run this code
-	temp = strDate & "," & strURL & "," & strStatus
+	temp = strDate & "," & strURL & "," & strPageTitle & "," & strStatus
 	currentTargetType = ""
 
 	objFile.WriteLine(temp)
@@ -127,6 +128,17 @@ Function URLEncode(ByVal str)
 		End If
 	Next
 	URLEncode = strTemp
+End Function
+
+
+Function GetPageTitle(strResponse)
+	iTitleStart = InStr(strResponse,"<title>")
+	iTitleEnd = InStr(strResponse,"</title>")
+	
+	if iTitleStart > 0 and iTitleEnd > 0 then
+		GetPageTitle = Replace(Mid(strResponse,iTitleStart+7,(iTitleEnd-1 - iTitleStart)-6),",","&#38;")	
+		currentPageTitle = GetPageTitle
+	end if
 End Function
 
 'isWebsiteOffline: Takes String URL 
@@ -198,22 +210,25 @@ Function isWebsiteOffline(strURL)
 			if Len(http.responseText) < 50 Then
 				doWeScrapeContent = false
 			end if
-		next	
+		next
+
+		tempPageTitle = GetPageTitle(http.responseText)	
 			
 		if doWeScrapeContent Then
 			'msgbox("Downloading " & strURL)		
 			arrTempURL = Split(strURL,":")
 			if currentTargetType <> "" then
-				DownLoadFile strURL, scrapePath & arrTempURL(1) & "-" & arrTempURL(2) & "-" & currentTargetType & ".html"				
+				DownLoadFile strURL, scrapePath & arrTempURL(1) & "-" & arrTempURL(2) & "-" & currentTargetType & ".html"
 			Else
 				DownLoadFile strURL, scrapePath & arrTempURL(1) & "-" & arrTempURL(2) & ".html"
 			end if
 			
-		end if
+		end if		
 		
 		'LogEventCSV Now(),strURL,http.status
-        LogEventCSV Now(),strURL,http.status & " found," & currentTargetType & "!"
+        LogEventCSV Now(),strURL,currentPageTitle,http.status & " found," & currentTargetType & "!"
 		currentTargetType = ""
+		currentPageTitle = ""
 	end if
 		
 
