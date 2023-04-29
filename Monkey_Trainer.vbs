@@ -1,7 +1,7 @@
 'Monkey Trainer for Flying Monkeyz Port Scanner
 'Author: Rick Cable (CyberAbyss)
 'Version 2.0 Beta
-'Released for educational purposes without warranty'M
+'Released for educational purposes without warranty
 
 'Outside Loop for 3rd Octet of IP Address
 
