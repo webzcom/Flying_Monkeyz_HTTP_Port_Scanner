@@ -1,11 +1,29 @@
 'Flying Monkeyz Port Scanner
 'Author: Rick Cable (CyberAbyss)
-'Version 1.2 Beta
+'Version 2.0 Beta
 'Released for educational purposes without warranty
 
-'Ask for User Input
-strUserSelectedIP = InputBox("Target IP address:", "Target IP")
-'strUserSelectedScanType = InputBox("Type of scan? (Short, Long or Mass)", "Scan Type - S, L or M")
+ON ERROR RESUME NEXT
+'Get input from command line argument first for use with Monkey Trainer Outside Loop
+'If not provided it will ask for it
+'Enable this line for use with Monkey Trainer
+IPFromMonkeyTrainer = WScript.Arguments.Item(0)
+Error.Clear
+'strUserSelectedIP = IPFromMonkeyTrainer
+
+if IPFromMonkeyTrainer = "" then
+	'Ask for User Input
+	strUserSelectedIP = InputBox("Target IP address:", "Target IP")
+	'strUserSelectedScanType = InputBox("Type of scan? (Short, Long or Mass)", "Scan Type - S, L or M")
+Else
+	strUserSelectedIP = IPFromMonkeyTrainer
+end if
+
+if strUserSelectedIP = "" Then
+	WScript.Quit
+end if
+
+
 
 'Define global variables
 
@@ -13,7 +31,7 @@ rootPath = "C:\scripts\01-Monkeyz"
 scrapePath = "C:\scripts\01-Monkeyz\scrape\"
 scanPath = "C:\scripts\01-Monkeyz\scans\"
 
-targetIP = "192.168.1.0"
+'targetIP = "192.168.1.0"
 
 if strUserSelectedIP <> "" Then
 	targetIP = strUserSelectedIP
@@ -29,7 +47,7 @@ logCalls = False
 logOnEvery = 100
 'Example shows 10 * 10000 form miliseconds to seconds
 httpTimeout = 500
-commonPortsList = "80,81,88,443,1337,5000,8080,32400,554,555,1024,1337,4840,7447,8554,7070,10554,6667,8081,8090,9100,19999"
+commonPortsList = "80,81,88,443,1337,5000,8080,8082,8090,9000,32400,554,555,1024,1337,4840,7447,8554,7070,10554,6667,8081,8090,9100,19999"
 'commonPortsList = "80"
 arrCommonPorts = split(commonPortsList,",")
 'Common target types
@@ -39,10 +57,10 @@ arrCommonPorts = split(commonPortsList,",")
 'торрент трекер is torrent tracker in Russian
 'luxteb is Iranian Medical Software Company. Found 4/4/2023
 'redirect_suffix is for QNAP NAS redirect page found 4/3/2023
-strTargetTypes = "relay for the Tor Network,TURN Server,Directory listing for,AutoSMTP,PowerMTA,Adminer,Wowza Media Server,Wowza Streaming Engine,Tor Exit Server,DD-WRT Control Panel,Blue Iris,SCADA,Swagger UI,SmarterMail,Keycloak,OctoPos,docker,Nginx Proxy Manager,phpMyAdmin,Looking Glass Point,Plesk,OoklaServer,Nagios,HTTP Parrot,Welcome to CentOS,Index of,payment method,listing:,Client sent an HTTP request to an HTTPS server,Ruby on Rails,Tor Exit Router,The Shadowserver Foundation,Georgia Institute of Technology,CentOS-WebPanel,PHP Version,luxteb,popper.js,Nexus Repository Minecraft Server,hospital,ISPmanager,defaultwebpage.cgi,.asp?,index.js,Synology,IIS,Apache,Node Exporter,Plone,webcam,webcamXP,Webmail,redirect_suffix,NextFiber Monitoring,Nexcess,nginx,router configuration,Network Security Appliance, NAS,Admin Panel,IKCard Web Mail,Amazon ECS,Unknown Domain,Lucee,ZITADEL • Console,OpenResty,NETSurveillance,WEB SERVICE,Bootstrap Theme,Blog,Coming Soon,Droplet,Your new web server,تلگرام,ASP.NET,Video Collection,Wowza Streaming Engine,You need to enable JavaScript,Пустая страница,торрент трекер,CTF platform,qBittorrent,Shared IP,没有找到站点,没有找到站点,webui,XFINITY,Calix Home Gateway,money-saving offers,laravel,ListAllMyBucketsResult,Cloudflare network,LeakIX scanning network,Login,Site Not Found,Lorem ipsum,Page not found,Manager,content is to be added,document.location.href"
+strTargetTypes = "Rebellion,WAMPSERVER homepage,webcamXP 5,Your server is now running,Synology,relay for the Tor Network,TURN Server,Filemaker,Directory listing for,AutoSMTP,PowerMTA,Adminer,Wowza Media Server,Wowza Streaming Engine,Tor Exit Server,DD-WRT Control Panel,Blue Iris,SCADA,Swagger UI,SmarterMail,Keycloak,OctoPos,docker,Nginx Proxy Manager,phpMyAdmin,Looking Glass Point,Plesk,OoklaServer,Nagios,HTTP Parrot,Welcome to CentOS,Index of,payment method,listing:,Client sent an HTTP request to an HTTPS server,Ruby on Rails,Tor Exit Router,The Shadowserver Foundation,Georgia Institute of Technology,CentOS-WebPanel,PHP Version,luxteb,popper.js,Nexus Repository Minecraft Server,hospital ,ISPmanager,defaultwebpage.cgi,.asp?,index.js,500 Internal Server Error,IIS,Apache,Node Exporter,Plone,webcam,webcamXP,Webmail,redirect_suffix,NextFiber Monitoring,Nexcess,nginx,router configuration,Network Security Appliance, NAS,Admin Panel,IKCard Web Mail,Amazon ECS,Unknown Domain,Lucee,ZITADEL • Console,OpenResty,NETSurveillance,WEB SERVICE,Bootstrap Theme,Blog,Coming Soon,Droplet,Your new web server,تلگرام,ASP.NET,Video Collection,Wowza Streaming Engine,You need to enable JavaScript,Пустая страница,торрент трекер,CTF platform,qBittorrent,Shared IP,没有找到站点,没有找到站点,webui,XFINITY,Calix Home Gateway,money-saving offers,laravel,ListAllMyBucketsResult,Cloudflare network,LeakIX scanning network,Login,Site Not Found,report,Lorem ipsum,Page not found,Manager,content is to be added,document.location.href"
 arrTargetTypes = Split(strTargetTypes,",")
 doWeScrapeContent = "true"
-strDoNotScrapeList = "AutoSMTP,Cloudflare network,nginx,laravel,CentOS-WebPanel,IIS,qBittorrent,Apache,Node Exporter,Shared IP,Droplet,Coming Soon,webui,defaultwebpage.cgi,money-saving offers,Plesk,Unknown Domain,Your new web server,Welcome to CentOS,没有找到站点,没有找到站点,Nginx Proxy Manager,document.location.href"
+strDoNotScrapeList = "Your server is now running,phpMyAdmin,AutoSMTP,Cloudflare network,nginx,laravel,CentOS-WebPanel,IIS,qBittorrent,Apache,Node Exporter,Shared IP,Droplet,Coming Soon,webui,defaultwebpage.cgi,money-saving offers,Plesk,Unknown Domain,Your new web server,Welcome to CentOS,没有找到站点,没有找到站点,Nginx Proxy Manager,document.location.href"
 arrDoNotScrapeList = Split(strDoNotScrapeList,",")
 currentTargetType = ""
 currentHTTPStatus = ""
