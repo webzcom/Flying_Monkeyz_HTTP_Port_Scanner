@@ -1,6 +1,6 @@
 'Flying Monkeyz Port Scanner
 'Author: Rick Cable (CyberAbyss)
-'Version 2.0 Beta
+'Version 3.0 Beta
 'Released for educational purposes without warranty
 
 ON ERROR RESUME NEXT
@@ -248,6 +248,25 @@ Function isWebsiteOffline(strURL)
 		end if
 
 		tempPageTitle = GetPageTitle(http.responseText)	
+
+		'if Title is empty lets see if there is a body tag and if the contents are small enough to include in the file name when scraped
+		
+		if tempPageTitle = "" Then
+			'msgbox("Page title is blank")
+			iBodyStart = Instr(http.responseText,"<body>")
+			'MsgBox("Body starts at" & iBodyStart)
+			if iBodyStart > 0 Then	'if greater than 0, we have a body tag start position
+				iBodyEnd =  Instr(http.responseText,"</body>")
+				if iBodyEnd > 0 Then
+					'MsgBox("Body end starts at" & iBodyEnd)
+					iBodyEnd = iBodyEnd - 1
+					iBodyStart = iBodyStart + 7
+				end if				
+				tempPageTitle = Mid(Replace(Mid(http.responseText, iBodyStart, iBodyEnd-iBodyStart)," ","-"),1,25)
+				'MsgBox(tempPageTitle)
+			end if
+		end if
+
 			
 		if doWeScrapeContent Then
 			'msgbox("Downloading " & strURL)		
