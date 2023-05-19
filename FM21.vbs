@@ -48,7 +48,7 @@ hasHTTPError = false
 logOnEvery = 100
 'Example shows 10 * 10000 form miliseconds to seconds
 httpTimeout = 500
-commonPortsList = "80,81,88,443,1024,1337,1000,2000,3000,4000,5000,6000,7000,8000,8080,8082,8090,9000,32400,554,555,1024,1337,4840,7447,8554,7070,10554,6667,8081,8090,9100,19999"
+commonPortsList = "80,81,88,443,1024,1337,1000,2000,3000,4000,4550,5000,5150,5160,5511,5554,6000,6036,6550,7000,8000,8080,8082,8090,8866,9000,10000,32400,554,555,1024,1337,4840,7447,8554,7070,10554,6667,8081,8090,9100,19999,50000,56000"
 'commonPortsList = "80"
 arrCommonPorts = split(commonPortsList,",")
 'Common target types
@@ -62,11 +62,11 @@ arrCommonPorts = split(commonPortsList,",")
 '没有找到站点 is Site Not Found in Chinese
 '若您的浏览器无法跳转 is If your browser cannot jump in Chinese
 strChinesePhrases = "没有找到站点,若您的浏览器无法跳转"
-strTargetTypes = "Hak5 Cloud C²,Hak5 Cloud, C2 ,INSTAR Full-HD IP-Camera,impulse CRM,bitrix,D-Link,live-video,PACS,U.Tel-G242,TP-LINK,WEB Management System,main-video,Caddy works,FASTPANEL,Icecast,Burp Collaborator Server,Connection denied by Geolocation Setting,pfsense,Rebellion,Lua Configuration Interface,WAMPSERVER homepage,webcamXP 5,Your server is now running,Synology,relay for the Tor Network,TURN Server,Filemaker,Directory listing for,AutoSMTP,PowerMTA,Adminer,Wowza Media Server,Wowza Streaming Engine,Tor Exit Server,DD-WRT Control Panel,Blue Iris,SCADA,Swagger UI,SmarterMail,Keycloak,OctoPos,docker,Nginx Proxy Manager,phpMyAdmin,Looking Glass Point,Plesk,OoklaServer,Nagios,HTTP Parrot,Welcome to CentOS,Index of,payment method,listing:,Client sent an HTTP request to an HTTPS server,Ruby on Rails,FreePBX,Tor Exit Router,The Shadowserver Foundation,Georgia Institute of Technology,CentOS-WebPanel,PHP Version,luxteb,popper.js,Nexus Repository Minecraft Server,hospital ,ISPmanager,defaultwebpage.cgi,.asp?,index.js,500 Internal Server Error,IIS,Apache,Swagger Editor,Node Exporter,Plone,webcam,webcamXP,Webmail,redirect_suffix,NextFiber Monitoring,Nexcess,nginx,router configuration,Network Security Appliance, NAS,Admin Panel,IKCard Web Mail,Amazon ECS,Unknown Domain,Lucee,ZITADEL • Console,OpenResty,NETSurveillance,WEB SERVICE,Bootstrap Theme,Blog,Coming Soon,Droplet,Your new web server,تلگرام,ASP.NET,Video Collection,Wowza Streaming Engine,You need to enable JavaScript,Пустая страница,торрент трекер,CTF platform,qBittorrent,Shared IP,webui,XFINITY,Calix Home Gateway,money-saving offers,laravel,ListAllMyBucketsResult,Cloudflare network,LeakIX scanning network,Login,Site Not Found,report,Lorem ipsum,Page not found,Manager,content is to be added,document.location.href," & strChinesePhrases
+strTargetTypes = "Account-Suspended,Website-Unavailable,Hak5 Cloud C²,Hak5 Cloud, C2 ,INSTAR Full-HD IP-Camera,impulse CRM,bitrix,D-Link,live-video,PACS,U.Tel-G242,TP-LINK,WEB Management System,main-video,Caddy works,FASTPANEL,Icecast,Burp Collaborator Server,Connection denied by Geolocation Setting,pfsense,Rebellion,Lua Configuration Interface,WAMPSERVER homepage,webcamXP 5,Your server is now running,Synology,relay for the Tor Network,TURN Server,Filemaker,Directory listing for,AutoSMTP,PowerMTA,Adminer,Wowza Media Server,Wowza Streaming Engine,Tor Exit Server,DD-WRT Control Panel,Blue Iris,SCADA,Swagger UI,SmarterMail,Keycloak,OctoPos,docker,Nginx Proxy Manager,phpMyAdmin,Looking Glass Point,Plesk,OoklaServer,Nagios,HTTP Parrot,Welcome to CentOS,Index of,payment method,listing:,Client sent an HTTP request to an HTTPS server,Ruby on Rails,FreePBX,Tor Exit Router,The Shadowserver Foundation,Georgia Institute of Technology,CentOS-WebPanel,PHP Version,luxteb,popper.js,Nexus Repository Minecraft Server,hospital ,ISPmanager,defaultwebpage.cgi,.asp?,index.js,500 Internal Server Error,IIS,Apache,Swagger Editor,Node Exporter,Plone,webcam,webcamXP,Webmail,redirect_suffix,NextFiber Monitoring,Nexcess,nginx,router configuration,Network Security Appliance,Admin Panel,IKCard Web Mail,Amazon ECS,Unknown Domain,Lucee,ZITADEL • Console,OpenResty,NETSurveillance,WEB SERVICE,Bootstrap Theme,Coming Soon,Droplet,Your new web server,تلگرام,ASP.NET,Video Collection,Wowza Streaming Engine,You need to enable JavaScript,Пустая страница,торрент трекер,CTF platform,qBittorrent,Shared IP,webui,XFINITY,Calix Home Gateway,money-saving offers,laravel,ListAllMyBucketsResult,Cloudflare network,LeakIX scanning network,Payment,Login,Site Not Found,report,Lorem ipsum,Page not found, NAS ,Manager,content is to be added,Blog,document.location.href," & strChinesePhrases
 
 arrTargetTypes = Split(strTargetTypes,",")
 doWeScrapeContent = true
-strDoNotScrapeList = "WEB Management System,NETSurveillance,WEB SERVICE,router configuration,Caddy works,FASTPANEL,Lua Configuration Interface,400 Bad Request,PHP Version,Network Security Appliance,Your server is now running,phpMyAdmin,AutoSMTP,Cloudflare network,nginx,laravel,CentOS-WebPanel,IIS,qBittorrent,Apache,Node Exporter,Shared IP,Droplet,Coming Soon,webui,defaultwebpage.cgi,money-saving offers,Plesk,Unknown Domain,Your new web server,Welcome to CentOS,没有找到站点,没有找到站点,Nginx Proxy Manager,document.location.href," & strChinesePhrases
+strDoNotScrapeList = "Account-Suspended,Website-Unavailable,Grafana,WEB Management System,NETSurveillance,WEB SERVICE,router configuration,Caddy works,FASTPANEL,Lua Configuration Interface,400 Bad Request,PHP Version,Network Security Appliance,Your server is now running,phpMyAdmin,AutoSMTP,Cloudflare network,nginx,laravel,CentOS-WebPanel,IIS,qBittorrent,Apache,Node Exporter,Shared IP,Droplet,Coming Soon,webui,defaultwebpage.cgi,money-saving offers,Plesk,Unknown Domain,Your new web server,Welcome to CentOS,没有找到站点,没有找到站点,Nginx Proxy Manager,document.location.href," & strChinesePhrases
 
 arrDoNotScrapeList = Split(strDoNotScrapeList,",")
 currentTargetType = ""
@@ -157,8 +157,8 @@ End Function
 
 
 Function GetPageTitle(strResponse)
-	iTitleStart = InStr(strResponse,"<title>")
-	iTitleEnd = InStr(strResponse,"</title>")
+	iTitleStart = InStr(1,strResponse,"<title>",1)
+	iTitleEnd = InStr(1,strResponse,"</title>",1)
 	
 	if iTitleStart > 0 and iTitleEnd > 0 then
 		GetPageTitle = Replace(Mid(strResponse,iTitleStart+7,(iTitleEnd-1 - iTitleStart)-6),",","&#38;")	
@@ -250,13 +250,13 @@ Function isWebsiteOffline(strURL)
 		tempPageTitle = GetPageTitle(http.responseText)	
 
 		'if Title is empty lets see if there is a body tag and if the contents are small enough to include in the file name when scraped
-		
+		 
 		if tempPageTitle = "" Then
 			'msgbox("Page title is blank")
-			iBodyStart = Instr(http.responseText,"<body>")
+			iBodyStart = Instr(1,http.responseText,"<body>",0)
 			'MsgBox("Body starts at" & iBodyStart)
 			if iBodyStart > 0 Then	'if greater than 0, we have a body tag start position
-				iBodyEnd =  Instr(http.responseText,"</body>")
+				iBodyEnd =  Instr(1,http.responseText,"</body>",0)
 				if iBodyEnd > 0 Then
 					'MsgBox("Body end starts at" & iBodyEnd)
 					iBodyEnd = iBodyEnd - 1
