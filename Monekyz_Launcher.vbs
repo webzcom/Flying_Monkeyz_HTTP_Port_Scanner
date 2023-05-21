@@ -21,7 +21,7 @@
 'This loop is for 3rd Octet of IP Address. FM21 will loop through the 4th Octect
 For i = 49 to 69
 	tempIP = strIP & i & ".0"
-	objShell.Run "FM21.vbs " & tempIP	
+	objShell.Run "FM30.vbs " & tempIP	
 Next	
 	' Using Set is mandatory
 	Set objShell = Nothing
