@@ -1,6 +1,6 @@
 'Flying Monkeyz Port Scanner
 'Author: Rick Cable (CyberAbyss)
-'Version 3.0 Beta
+'Version 4.0 
 'Released for educational purposes without warranty
 
 ON ERROR RESUME NEXT
@@ -48,8 +48,8 @@ hasHTTPError = false
 logOnEvery = 100
 'Example shows 10 * 10000 form miliseconds to seconds
 httpTimeout = 500
-commonPortsList = "80,81,88,443,1024,1337,1000,2000,3000,4000,4550,5000,5150,5160,5511,5554,6000,6036,6550,7000,8000,8080,8082,8090,8866,9000,10000,32400,554,555,1024,1337,4840,7447,8554,7070,10554,6667,8081,8090,9100,19999,50000,56000"
-'commonPortsList = "80"
+'commonPortsList = "80,81,88,443,1024,1337,1000,2000,3000,4000,4550,5000,5150,5160,5511,5554,6000,6036,6550,7000,8000,8080,8082,8090,8866,9000,10000,32400,554,555,1024,1337,4840,7447,8554,7070,10554,6667,8081,8090,9100,9200,19999,50000,56000"
+commonPortsList = "80,8080"
 arrCommonPorts = split(commonPortsList,",")
 'Common target types
 'تلگرام is Telegram in Persian
@@ -62,7 +62,7 @@ arrCommonPorts = split(commonPortsList,",")
 '没有找到站点 is Site Not Found in Chinese
 '若您的浏览器无法跳转 is If your browser cannot jump in Chinese
 strChinesePhrases = "没有找到站点,若您的浏览器无法跳转"
-strTargetTypes = "Account-Suspended,Website-Unavailable,Hak5 Cloud C²,Hak5 Cloud,Hak5, C2 ,XSS,INSTAR Full-HD IP-Camera,impulse CRM,bitrix,D-Link,live-video,PACS,U.Tel-G242,TP-LINK,WEB Management System,main-video,Caddy works,FASTPANEL,Icecast,Burp Collaborator Server,Connection denied by Geolocation Setting,pfsense,Rebellion,Lua Configuration Interface,WAMPSERVER homepage,webcamXP 5,Your server is now running,Synology,relay for the Tor Network,TURN Server,Filemaker,Directory listing for,AutoSMTP,PowerMTA,Adminer,Wowza Media Server,Wowza Streaming Engine,Tor Exit Server,DD-WRT Control Panel,Blue Iris,SCADA,Swagger UI,SmarterMail,Keycloak,OctoPos,docker,Nginx Proxy Manager,phpMyAdmin,Looking Glass Point,Plesk,OoklaServer,Nagios,HTTP Parrot,Welcome to CentOS,Index of,payment method,listing:,Client sent an HTTP request to an HTTPS server,Ruby on Rails,FreePBX,Tor Exit Router,The Shadowserver Foundation,Georgia Institute of Technology,CentOS-WebPanel,PHP Version,luxteb,popper.js,Nexus Repository Minecraft Server,hospital ,ISPmanager,defaultwebpage.cgi,.asp?,index.js,500 Internal Server Error,IIS,Apache,Swagger Editor,Node Exporter,Plone,webcam,webcamXP,Webmail,redirect_suffix,NextFiber Monitoring,Nexcess,nginx,router configuration,Network Security Appliance,Admin Panel,IKCard Web Mail,Amazon ECS,Unknown Domain,Lucee,ZITADEL • Console,OpenResty,NETSurveillance,WEB SERVICE,Bootstrap Theme,Coming Soon,Droplet,Your new web server,تلگرام,ASP.NET,Video Collection,Wowza Streaming Engine,You need to enable JavaScript,Пустая страница,торрент трекер,CTF platform,qBittorrent,Shared IP,webui,XFINITY,Calix Home Gateway,money-saving offers,laravel,ListAllMyBucketsResult,Cloudflare network,LeakIX scanning network,Payment,Login,Site Not Found,report,Lorem ipsum,Page not found, NAS ,Manager,content is to be added,password=,username=,document.location.href," & strChinesePhrases
+strTargetTypes = "Account-Suspended,Website-Unavailable,Cobalt Strike,Metasploit,Sliver,Havoc,Hak5 Cloud C²,Hak5 Cloud,Hak5 , C² ,XSSez,XSS Hunter,XSStrike,XSSER,Acunetix,Burp Suite,Intruder,Dalfox,INSTAR Full-HD IP-Camera,impulse CRM,bitrix,D-Link,live-video,PACS,U.Tel-G242,TP-LINK,WEB Management System,main-video,Caddy works,FASTPANEL,Icecast,Burp Collaborator Server,Connection denied by Geolocation Setting,pfsense,Rebellion,Lua Configuration Interface,WAMPSERVER homepage,webcamXP 5,Your server is now running,Synology,relay for the Tor Network,TURN Server,Filemaker,Directory listing for,AutoSMTP,PowerMTA,Adminer,Wowza Media Server,Wowza Streaming Engine,Tor Exit Server,DD-WRT Control Panel,Blue Iris,SCADA,Swagger UI,SmarterMail,Keycloak,OctoPos,docker,Nginx Proxy Manager,phpMyAdmin,Looking Glass Point,Plesk,OoklaServer,Nagios,HTTP Parrot,Welcome to CentOS,Index of,payment method,listing:,Client sent an HTTP request to an HTTPS server,Ruby on Rails,FreePBX,Tor Exit Router,The Shadowserver Foundation,Georgia Institute of Technology,CentOS-WebPanel,PHP Version,luxteb,popper.js,Nexus Repository Minecraft Server,hospital ,ISPmanager,defaultwebpage.cgi,.asp?,index.js,500 Internal Server Error,IIS,Apache,Swagger Editor,Node Exporter,Plone,webcam,webcamXP,Webmail,redirect_suffix,NextFiber Monitoring,Nexcess,nginx,router configuration,Network Security Appliance,Admin Panel,IKCard Web Mail,Amazon ECS,Unknown Domain,Lucee,ZITADEL • Console,OpenResty,NETSurveillance,WEB SERVICE,Bootstrap Theme,Coming Soon,Droplet,Your new web server,تلگرام,ASP.NET,Video Collection,Wowza Streaming Engine,You need to enable JavaScript,Пустая страница,торрент трекер,CTF platform,qBittorrent,Shared IP,webui,XFINITY,Calix Home Gateway,money-saving offers,laravel,ListAllMyBucketsResult,Cloudflare network,LeakIX scanning network,Payment,Login,Site Not Found,report,Lorem ipsum,Page not found, NAS ,Manager,content is to be added,password=,username=,document.location.href," & strChinesePhrases
 
 arrTargetTypes = Split(strTargetTypes,",")
 doWeScrapeContent = true
@@ -73,9 +73,12 @@ currentTargetType = ""
 currentHTTPStatus = ""
 currentPageTitle = ""
 
+'Well-Known Ports (0-1023)
+'Registered Ports (1024 - 49,151)
+'Dynamic / Private Ports (49,152 - 65,535)
 iStep = 1
-iStartPort = 444	'Max Value is 65535
-iEndPort = 65536	'Max Value is 65536
+iStartPort = 0	'Max Value is 65535
+iEndPort = 65535	'Max TCP Value is 65535 / UPD is 65536
 isShortScan = False
 isLongScan = False
 isMassScan = True	'Mass Scan runs a short scan on all IP addresses in the target IP's subnet
@@ -174,6 +177,10 @@ Function isWebsiteOffline(strURL)
 	if InStr(strURL, ":443") > 0 OR InStr(strURL, ":1337") Then
 		strURL = Replace(strURL,"http","https")
 	end if
+	'Check for hidden FTP servers
+	if InStr(strURL, ":22") > 0 Then
+		strURL = Replace(strURL,"http","ftp")
+	end if
 	'Set WshShell = WScript.CreateObject("WScript.Shell")
 
 	'Note 3/12/2023: From testing results... 
@@ -194,9 +201,12 @@ Function isWebsiteOffline(strURL)
 	lSend = 15 * httpTimeout 
 	lReceive = 15 * httpTimeout  
 	http.setTimeouts lResolve, lConnect, lSend, lReceive
- 	'Set http = CreateObject("Microsoft.XmlHttp")
+	 	'Set http = CreateObject("Microsoft.XmlHttp")
 	http.open "GET", strURL, False
+	http.setRequestHeader "User-Agent", "GoGoSlurpZuda"  
 	http.send ""
+	
+	CheckForFTP = false
 
 	'Only check for error of the HTTP Get request for 200 or 404 code returned. If any status is returned then the server is up
 	if err.number <> 0 Then	'Site is down
@@ -212,6 +222,14 @@ Function isWebsiteOffline(strURL)
 			doWeScrapeContent = true
 		Else
 			hasHTTPError = true
+			if CheckForFTP = true AND InStr(strURL,"ftp") = 0 then
+				strURL = Replace(strURL,"http","ftp")
+				http.open "GET", strURL, False
+				http.send ""
+			end if
+			if Left(http.status,1) = "2" Then
+				hasHTTPError = false
+			end if			
 		end if
 		
 	End If
@@ -228,7 +246,7 @@ Function isWebsiteOffline(strURL)
 				if currentTargetType <> "" Then
 					Exit For
 				End if
-				if InStr(1,http.responseText,item,1) > 0 Then
+				if InStr(1,http.responseText,item,0) > 0 Then
 					currentTargetType = item
 				end if
 			Next		
@@ -262,19 +280,19 @@ Function isWebsiteOffline(strURL)
 					iBodyEnd = iBodyEnd - 1
 					iBodyStart = iBodyStart + 7
 				end if				
-				tempPageTitle = Mid(Replace(Mid(http.responseText, iBodyStart, iBodyEnd-iBodyStart)," ","-"),1,25)
+				tempPageTitle = Mid(Replace(Mid(http.responseText, iBodyStart, iBodyEnd-iBodyStart)," ","-"),1,50)
 				'MsgBox(tempPageTitle)
 			end if
 		end if
 
-			
+		doWeScrapeContent = false	
 		if doWeScrapeContent Then
 			'msgbox("Downloading " & strURL)		
 			arrTempURL = Split(strURL,":")
 			if currentTargetType <> "" then
 				DownLoadFile strURL, scrapePath & arrTempURL(1) & "-" & arrTempURL(2) & "-" & currentTargetType & "-" & Replace(Mid(tempPageTitle,1,45)," ","-") & ".html"
 			Else
-				DownLoadFile strURL, scrapePath & arrTempURL(1) & "-" & arrTempURL(2) & "-" & Replace(Mid(tempPageTitle,1,45)," ","-") & ".html"
+				DownLoadFile strURL, scrapePath & arrTempURL(1) & "-" & arrTempURL(2) & "-" & Replace(Mid(tempPageTitle,1,55)," ","-") & ".html"
 			end if
 			
 		end if		
