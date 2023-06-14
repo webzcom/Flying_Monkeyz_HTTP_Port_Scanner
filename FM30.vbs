@@ -1,37 +1,42 @@
 'Flying Monkeyz Port Scanner
 'Author: Rick Cable (CyberAbyss)
-'Version 4.0 
+'Version 5.0
 'Released for educational purposes without warranty
 
+'For next update make the script capable of using specific user-agent strings to find hidden command and control servers.
+'Refrence this Sans video on threat hunting
+'https://www.youtube.com/watch?v=GjquFKa4afU&ab_channel=SANSDigitalForensicsandIncidentResponse
+'This one is suspect,might be hacker group: Dectected: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:79.0) Gecko/20100101 Firefox/79.0
+strUserAgent = "GoGoSlurpZuda"
+
+TextToSpeech("Here we go! Lets hack some shit!")
+
 ON ERROR RESUME NEXT
-'Get input from command line argument first for use with Monkey Trainer Outside Loop
-'If not provided it will ask for it
-'Enable this line for use with Monkey Trainer
-IPFromMonkeyTrainer = WScript.Arguments.Item(0)
+'#Get Input
+' Use command line argument first for use with Monkey Trainer Outside Loop, If not provided it will ask for it
+'Enable this line for use with Monkey Launcher
+IPFromMonkeyLauncher = WScript.Arguments.Item(0)
 Error.Clear
 'strUserSelectedIP = IPFromMonkeyTrainer
 
-if IPFromMonkeyTrainer = "" then
+if IPFromMonkeyLauncher = "" then
 	'Ask for User Input
 	strUserSelectedIP = InputBox("Target IP address:", "Target IP")
 	'strUserSelectedScanType = InputBox("Type of scan? (Short, Long or Mass)", "Scan Type - S, L or M")
 Else
-	strUserSelectedIP = IPFromMonkeyTrainer
+	strUserSelectedIP = IPFromMonkeyLauncher
 end if
 
 if strUserSelectedIP = "" Then
 	WScript.Quit
 end if
 
-
-
-'Define global variables
+'#Define global variables
 
 rootPath = "C:\scripts\01-Monkeyz"
 scrapePath = "C:\scripts\01-Monkeyz\scrape\"
 scanPath = "C:\scripts\01-Monkeyz\scans\"
-
-'targetIP = "192.168.1.0"
+completedPath = "C:\scripts\01-Monkeyz\scans_completed\"
 
 if strUserSelectedIP <> "" Then
 	targetIP = strUserSelectedIP
@@ -40,11 +45,14 @@ end if
 target = "http://" & targetIP
 sTarget = "https://" & targetIP
 strNewLine = Chr(13) & Chr(10)
-outFile = scanPath & "log-" & targetIP & ".csv" 		'File Path
+currentFileName = "log-" & targetIP & ".csv" 
+outFile = scanPath & currentFileName		'File Path
+completedFile = completedPath & currentFileName
 errorLogFile = "error-log.csv"	'Error Log File Path
 showFoundMessage = false
 logCalls = False
 hasHTTPError = false
+hitCounter = 0 		'Counts how many finds we've had, if 0 just delete the file at the end of the process
 logOnEvery = 100
 'Example shows 10 * 10000 form miliseconds to seconds
 httpTimeout = 500
@@ -62,7 +70,12 @@ arrCommonPorts = split(commonPortsList,",")
 '没有找到站点 is Site Not Found in Chinese
 '若您的浏览器无法跳转 is If your browser cannot jump in Chinese
 strChinesePhrases = "没有找到站点,若您的浏览器无法跳转"
-strTargetTypes = "Account-Suspended,Website-Unavailable,Cobalt Strike,Metasploit,Sliver,Havoc,Hak5 Cloud C²,Hak5 Cloud,Hak5 , C² ,XSSez,XSS Hunter,XSStrike,XSSER,Acunetix,Burp Suite,Intruder,Dalfox,INSTAR Full-HD IP-Camera,impulse CRM,bitrix,D-Link,live-video,PACS,U.Tel-G242,TP-LINK,WEB Management System,main-video,Caddy works,FASTPANEL,Icecast,Burp Collaborator Server,Connection denied by Geolocation Setting,pfsense,Rebellion,Lua Configuration Interface,WAMPSERVER homepage,webcamXP 5,Your server is now running,Synology,relay for the Tor Network,TURN Server,Filemaker,Directory listing for,AutoSMTP,PowerMTA,Adminer,Wowza Media Server,Wowza Streaming Engine,Tor Exit Server,DD-WRT Control Panel,Blue Iris,SCADA,Swagger UI,SmarterMail,Keycloak,OctoPos,docker,Nginx Proxy Manager,phpMyAdmin,Looking Glass Point,Plesk,OoklaServer,Nagios,HTTP Parrot,Welcome to CentOS,Index of,payment method,listing:,Client sent an HTTP request to an HTTPS server,Ruby on Rails,FreePBX,Tor Exit Router,The Shadowserver Foundation,Georgia Institute of Technology,CentOS-WebPanel,PHP Version,luxteb,popper.js,Nexus Repository Minecraft Server,hospital ,ISPmanager,defaultwebpage.cgi,.asp?,index.js,500 Internal Server Error,IIS,Apache,Swagger Editor,Node Exporter,Plone,webcam,webcamXP,Webmail,redirect_suffix,NextFiber Monitoring,Nexcess,nginx,router configuration,Network Security Appliance,Admin Panel,IKCard Web Mail,Amazon ECS,Unknown Domain,Lucee,ZITADEL • Console,OpenResty,NETSurveillance,WEB SERVICE,Bootstrap Theme,Coming Soon,Droplet,Your new web server,تلگرام,ASP.NET,Video Collection,Wowza Streaming Engine,You need to enable JavaScript,Пустая страница,торрент трекер,CTF platform,qBittorrent,Shared IP,webui,XFINITY,Calix Home Gateway,money-saving offers,laravel,ListAllMyBucketsResult,Cloudflare network,LeakIX scanning network,Payment,Login,Site Not Found,report,Lorem ipsum,Page not found, NAS ,Manager,content is to be added,password=,username=,document.location.href," & strChinesePhrases
+strTargetTypes = "Telgram.js,Account-Suspended,Website-Unavailable,Cobalt Strike,Metasploit,Sliver,Havoc,Hak5 Cloud C²,Hak5 Cloud,Hak5 , C² ,XSSez,XSS Hunter,XSStrike,XSSER,Acunetix,Burp Suite,Intruder,Dalfox,The Hunted,China Chopper,LOKI,/admin,/backup,INSTAR Full-HD IP-Camera,impulse CRM,bitrix,D-Link,live-video,PACS,U.Tel-G242,TP-LINK,WEB Management System,main-video,Caddy works,FASTPANEL,Icecast,Burp Collaborator Server,Connection denied by Geolocation Setting,pfsense,Rebellion,Lua Configuration Interface,WAMPSERVER homepage,webcamXP 5,Your server is now running,Synology,relay for the Tor Network,TURN Server,Filemaker,Directory listing for,AutoSMTP,PowerMTA,Adminer,Wowza Media Server,Wowza Streaming Engine,Tor Exit Server,DD-WRT Control Panel,database,DB,Blue Iris,SCADA,Swagger UI,SmarterMail,Keycloak,OctoPos,blog,docker,Nginx Proxy Manager,phpMyAdmin,patriot,antifa,communist,communism,socialist,workers party,Looking Glass Point,Plesk,OoklaServer,Nagios,HTTP Parrot,Welcome to CentOS,Index of,payment method,listing:,Client sent an HTTP request to an HTTPS server,Ruby on Rails,FreePBX,Tor Exit Router,The Shadowserver Foundation,Georgia Institute of Technology,CentOS-WebPanel,PHP Version,luxteb,popper.js,Nexus Repository Minecraft Server,patriot,antifa,communist,communism,socialist,Islam,Jihad,workers party,Aryan,nazi,anarcist,Anarchism,Tor Exit Router,hacker,hacking,hacked,hack,hospital ,ISPmanager,defaultwebpage.cgi,.asp?,index.js,500 Internal Server Error,IIS,Apache,Swagger Editor,Node Exporter,Plone,webcam,webcamXP,Webmail,redirect_suffix,NextFiber Monitoring,Nexcess,nginx,router configuration,Network Security Appliance,Admin Panel,IKCard Web Mail,Amazon ECS,Unknown Domain,Lucee,ZITADEL • Console,OpenResty,NETSurveillance,WEB SERVICE,Bootstrap Theme,Coming Soon,Droplet,Your new web server,تلگرام,ASP.NET,Video Collection,Wowza Streaming Engine,You need to enable JavaScript,Пустая страница,торрент трекер,CTF platform,qBittorrent,Shared IP,webui,XFINITY,Calix Home Gateway,money-saving offers,laravel,ListAllMyBucketsResult,Cloudflare network,LeakIX scanning network,secret,APIKey,Payment,Login,Site Not Found,report,Lorem ipsum,Page not found, NAS ,Manager,content is to be added,password:,password=,username=,document.location.href," & strChinesePhrases
+
+'strTargetTypes = "index of,Cobalt Strike,Metasploit,Sliver,Havoc,Hak5 Cloud C²,Hak5 Cloud,Hak5 , C² ,Hak5,XSSez,XSS Hunter,XSStrike,XSSER,Acunetix,Burp Suite,Intruder,Dalfox,DB , DB,database,Icecast,Burp Collaborator Server,Burp,pfsense,relay for the Tor Network,Tor Exit Server,control panel,admin panel,patriot,antifa,communist,communism,socialist,workers party,Tor Exit Router,hacker,hacking,hacked,hack ,CTF,Cyber,report,jenkins"
+
+'Modified Target Types for Cloud Threat Hunting
+'strTargetTypes = "Cobalt Strike,Metasploit,Sliver,Havoc,Hak5 Cloud C²,Hak5 Cloud,Hak5 , C² ,Hak5,XSSez,XSS Hunter,XSStrike,XSSER,XSSez,XSS ,Acunetix,Burp Suite,Burp,Intruder,Dalfox,DB , DB,database,Collaborator Server,Burp,relay for the Tor Network,Tor Exit Server,patriot,antifa,communist,communism,socialist,Islam,Jihad,workers party,Tor Exit Router,hacker,hacking,hacked,hack"
 
 arrTargetTypes = Split(strTargetTypes,",")
 doWeScrapeContent = true
@@ -85,7 +98,7 @@ isMassScan = True	'Mass Scan runs a short scan on all IP addresses in the target
 
 'Create log file in CSV format and seed header row
 Sub CreateLogFile(strFileName)
-	'Create the File System Object
+	'Create the File System Object= 
 	Set objFSO = CreateObject("Scripting.FileSystemObject")
 
 	'Setup file to write
@@ -117,17 +130,18 @@ Sub LogEventCSV(strDate,strURL,strPageTitle,strStatus)
 	'Create the File System Object
 	Set objFSO = CreateObject("Scripting.FileSystemObject")
 	Set objFile = objFSO.OpenTextFile(outfile, 8)	'8 = ForAppending https://technet.microsoft.com/en-us/library/ee198716.aspx
-	'Don't check the HD space on every pass
-	'Only check HD space once a day
-	'if DatePart("h", Now) = 10 AND (DatePart("n", Now) > 42 AND DatePart("n", NOW) < 50)  then	'@10:05 Run this code
-	temp = strDate & "," & strURL & "," & strPageTitle & "," & strStatus
-	currentTargetType = ""
 
-	objFile.WriteLine(temp)
+	temp = strDate & "," & strURL & "," & strPageTitle & "," & strStatus	
+	
+	'Only log the intereting stuff
+	if currentTargetType <> "" then
+		objFile.WriteLine(temp)
+	end if
 	'objFile.WriteLine(temp2)
 	
 	objFile.Close
 	ReportError("LogEventCSV")
+	currentTargetType = ""
 End Sub
 
 'http://dwarf1711.blogspot.com/2007/10/vbscript-urlencode-function.html
@@ -157,7 +171,6 @@ Function URLEncode(ByVal str)
 	Next
 	URLEncode = strTemp
 End Function
-
 
 Function GetPageTitle(strResponse)
 	iTitleStart = InStr(1,strResponse,"<title>",1)
@@ -203,7 +216,7 @@ Function isWebsiteOffline(strURL)
 	http.setTimeouts lResolve, lConnect, lSend, lReceive
 	 	'Set http = CreateObject("Microsoft.XmlHttp")
 	http.open "GET", strURL, False
-	http.setRequestHeader "User-Agent", "GoGoSlurpZuda"  
+	http.setRequestHeader "User-Agent", strUserAgent  
 	http.send ""
 	
 	CheckForFTP = false
@@ -248,6 +261,12 @@ Function isWebsiteOffline(strURL)
 				End if
 				if InStr(1,http.responseText,item,0) > 0 Then
 					currentTargetType = item
+					
+					if InStr(1,currentTargetType,"hak5",0) > 0 then
+						TextToSpeech("Found ") & currentTargetType
+					elseif InStr(1,currentTargetType,"xss",0) > 0 then
+						TextToSpeech("Found ") & currentTargetType
+					end if
 				end if
 			Next		
 			
@@ -299,6 +318,7 @@ Function isWebsiteOffline(strURL)
 		
 		'LogEventCSV Now(),strURL,http.status
         LogEventCSV Now(),strURL,currentPageTitle,http.status & " found," & currentTargetType & "!"
+		hitCounter = hitCounter + 1
 		currentTargetType = ""
 		currentPageTitle = ""
 	end if
@@ -344,9 +364,10 @@ End Function
 
 Function runMassScan(target)		
 	For iLastOctet = 0 to 255
+		hitCounter = 0
 		'MsgBox(target & "." & iLastOctet)	
 		runShortScan(target & "." & iLastOctet)
-		currentTargetType = ""
+		currentTargetType = ""		
 	Next	
 End Function
 
@@ -381,6 +402,13 @@ Sub DownloadFile(url,filePath)
 	currentTargetType = ""
 End Sub
 
+Sub TextToSpeech(strText)
+	Dim sapi
+	Set sapi = createObject("sapi.spvoice")
+	Set sapi.Voice = sapi.GetVoices.Item(1)
+	sapi.Speak strText
+End Sub
+
 'Start processing commands here!
 CreateLogFile("error-log.csv")
 CreateLogFile(outfile)
@@ -401,5 +429,16 @@ CreateLogFile(outfile)
 		target = arrTemp(0) & "." & arrTemp(1) & "." & arrTemp(2)
 		runMassScan(target)
 	end if
+	
+	'If file has no results, delete the file, else, move to completed folder for further review
+	Set FSO = CreateObject("Scripting.FileSystemObject")
+	if hitCounter = 0 then
+		if FSO.FileExists(outFile) then
+			FSO.DeleteFile outFile
+		end if
+	else
+		FSO.MoveFile outFile, completedFile
+	end if
+	FSO.Close
 
 'msgbox("Completed port scan on " & target & " with port # " & i & ".")
