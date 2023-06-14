@@ -9,7 +9,6 @@
 'This one is suspect,might be hacker group: Dectected: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:79.0) Gecko/20100101 Firefox/79.0
 strUserAgent = "GoGoSlurpZuda"
 
-TextToSpeech("Here we go! Lets hack some shit!")
 
 ON ERROR RESUME NEXT
 '#Get Input
@@ -23,8 +22,10 @@ if IPFromMonkeyLauncher = "" then
 	'Ask for User Input
 	strUserSelectedIP = InputBox("Target IP address:", "Target IP")
 	'strUserSelectedScanType = InputBox("Type of scan? (Short, Long or Mass)", "Scan Type - S, L or M")
+	TextToSpeech("Starting Threat Detection Scan of your selected IP Address, " & strUserSelectedIP & ". Here we go!")
 Else
 	strUserSelectedIP = IPFromMonkeyLauncher
+	TextToSpeech("Starting Threat Detection Scan of your selected IP Raanges!  Here we go!")
 end if
 
 if strUserSelectedIP = "" Then
@@ -262,9 +263,7 @@ Function isWebsiteOffline(strURL)
 				if InStr(1,http.responseText,item,0) > 0 Then
 					currentTargetType = item
 					
-					if InStr(1,currentTargetType,"hak5",0) > 0 then
-						TextToSpeech("Found ") & currentTargetType
-					elseif InStr(1,currentTargetType,"xss",0) > 0 then
+					if currentTargetType = "XSS Hunter" then
 						TextToSpeech("Found ") & currentTargetType
 					end if
 				end if
