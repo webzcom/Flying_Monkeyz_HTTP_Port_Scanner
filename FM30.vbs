@@ -1,6 +1,6 @@
 'Flying Monkeyz Port Scanner
 'Author: Rick Cable (CyberAbyss)
-'Version 5.0
+'Version 6.0
 'Released for educational purposes without warranty
 
 'For next update make the script capable of using specific user-agent strings to find hidden command and control servers.
@@ -25,7 +25,7 @@ if IPFromMonkeyLauncher = "" then
 	TextToSpeech("Starting Threat Detection Scan of your selected IP Address, " & strUserSelectedIP & ". Here we go!")
 Else
 	strUserSelectedIP = IPFromMonkeyLauncher
-	TextToSpeech("Starting Threat Detection Scan of your selected IP Raanges!  Here we go!")
+	'TextToSpeech("Starting Threat Detection Scan of your selected IP Ranges!  Here we go!")
 end if
 
 if strUserSelectedIP = "" Then
@@ -47,6 +47,7 @@ target = "http://" & targetIP
 sTarget = "https://" & targetIP
 strNewLine = Chr(13) & Chr(10)
 currentFileName = "log-" & targetIP & ".csv" 
+iCurrentFileSize = 0
 outFile = scanPath & currentFileName		'File Path
 completedFile = completedPath & currentFileName
 errorLogFile = "error-log.csv"	'Error Log File Path
@@ -57,8 +58,8 @@ hitCounter = 0 		'Counts how many finds we've had, if 0 just delete the file at 
 logOnEvery = 100
 'Example shows 10 * 10000 form miliseconds to seconds
 httpTimeout = 500
-'commonPortsList = "80,81,88,443,1024,1337,1000,2000,3000,4000,4550,5000,5150,5160,5511,5554,6000,6036,6550,7000,8000,8080,8082,8090,8866,9000,10000,32400,554,555,1024,1337,4840,7447,8554,7070,10554,6667,8081,8090,9100,9200,19999,50000,56000"
-commonPortsList = "80,8080"
+'commonPortsList = "80,8080,8081,81,88,443,1024,1337,1000,2000,3000,4000,4550,5000,5150,5160,5511,5554,6000,6036,6550,7000,8000,8080,8082,8090,8866,9000,10000,32400,554,555,1024,1337,4840,7447,8554,7070,10554,6667,8081,8090,9100,9200,19999,50000,56000"
+commonPortsList = "80,8080,8081,8000"
 arrCommonPorts = split(commonPortsList,",")
 'Common target types
 'تلگرام is Telegram in Persian
@@ -81,6 +82,9 @@ strTargetTypes = "Telgram.js,Account-Suspended,Website-Unavailable,Cobalt Strike
 arrTargetTypes = Split(strTargetTypes,",")
 doWeScrapeContent = true
 strDoNotScrapeList = "Grafana,WEB Management System,NETSurveillance,WEB SERVICE,router configuration,Caddy works,FASTPANEL,Lua Configuration Interface,400 Bad Request,PHP Version,Network Security Appliance,Your server is now running,phpMyAdmin,AutoSMTP,Cloudflare network,nginx,laravel,CentOS-WebPanel,IIS,qBittorrent,Apache,Node Exporter,Shared IP,Droplet,Coming Soon,webui,defaultwebpage.cgi,money-saving offers,Plesk,Unknown Domain,Your new web server,Welcome to CentOS,没有找到站点,没有找到站点,Nginx Proxy Manager,document.location.href," & strChinesePhrases
+
+strInterestingItems = "torrent,movies,.mkv,.mp4,.mp3,downloads"
+arrInterestingItems = split(strInterestingItems,",")
 
 arrDoNotScrapeList = Split(strDoNotScrapeList,",")
 currentTargetType = ""
@@ -109,7 +113,7 @@ Sub CreateLogFile(strFileName)
 		if strFileName = "error-log.csv" then
 			objFile.WriteLine("Date,Module,Error")
 		Else
-			objFile.WriteLine("Date,URL,Title,Event/Repsonse,Target_Type")
+			objFile.WriteLine("Date,File Size,URL,Title,Event/Repsonse,Target_Type")
 		end if
 		
 		objFile.Close
@@ -127,12 +131,12 @@ Sub ReportError(strFunction)
 End Sub
 
 'LogEventCSV: Called by MonitorUptime: Logs events in the csv file
-Sub LogEventCSV(strDate,strURL,strPageTitle,strStatus)
+Sub LogEventCSV(strDate,iFileSize,strURL,strPageTitle,strStatus)
 	'Create the File System Object
 	Set objFSO = CreateObject("Scripting.FileSystemObject")
 	Set objFile = objFSO.OpenTextFile(outfile, 8)	'8 = ForAppending https://technet.microsoft.com/en-us/library/ee198716.aspx
 
-	temp = strDate & "," & strURL & "," & strPageTitle & "," & strStatus	
+	temp = strDate & "," & iFileSize & "," & strURL & "," & strPageTitle & "," & strStatus	
 	
 	'Only log the intereting stuff
 	if currentTargetType <> "" then
@@ -234,6 +238,7 @@ Function isWebsiteOffline(strURL)
 		if Left(http.status,1) = "2" Then
 			hasHTTPError = false
 			doWeScrapeContent = true
+			iCurrentFileSize = Len(http.responseText)
 		Else
 			hasHTTPError = true
 			if CheckForFTP = true AND InStr(strURL,"ftp") = 0 then
@@ -262,12 +267,28 @@ Function isWebsiteOffline(strURL)
 				End if
 				if InStr(1,http.responseText,item,0) > 0 Then
 					currentTargetType = item
-					
-					if currentTargetType = "XSS Hunter" then
-						TextToSpeech("Found ") & currentTargetType
-					end if
 				end if
 			Next		
+			
+			if currentTargetType = "Hak5 Cloud C²" then
+				TextToSpeech("Heads Up! Found Hack 5 Command and Control Server")
+			end if
+					
+			'strInterestingItems = "torrent,movies,.mkv,.mp4,.mp3,downloads"
+			'arrInterestingItems = split(strInterestingItems,",")
+					
+			'If target type is Index of, check to see if there is anything interesting for download
+			if currentTargetType = "Index of" AND iCurrentFileSize > 480 then
+				For each itemz in arrInterestingItems
+					if InStr(1,http.responseText,itemz,0) > 0 Then
+						currentTargetType = currentTargetType & "+" & itemz 
+						TextToSpeech("Heads Up! Found " & itemz)
+					end if
+				Next
+			else
+				currentTargetType = currentTargetType 
+			end if
+			
 			
 			'do not scrape these types
 			for each item in arrDoNotScrapeList
@@ -316,7 +337,7 @@ Function isWebsiteOffline(strURL)
 		end if		
 		
 		'LogEventCSV Now(),strURL,http.status
-        LogEventCSV Now(),strURL,currentPageTitle,http.status & " found," & currentTargetType & "!"
+        LogEventCSV Now(),iCurrentFileSize,strURL,currentPageTitle,http.status & " found," & currentTargetType & "!"
 		hitCounter = hitCounter + 1
 		currentTargetType = ""
 		currentPageTitle = ""
@@ -402,9 +423,11 @@ Sub DownloadFile(url,filePath)
 End Sub
 
 Sub TextToSpeech(strText)
+	Dim voiceIndex
 	Dim sapi
+	voiceIndex = 0
 	Set sapi = createObject("sapi.spvoice")
-	Set sapi.Voice = sapi.GetVoices.Item(1)
+	Set sapi.Voice = sapi.GetVoices.Item(voiceIndex)
 	sapi.Speak strText
 End Sub
 
@@ -431,7 +454,7 @@ CreateLogFile(outfile)
 	
 	'If file has no results, delete the file, else, move to completed folder for further review
 	Set FSO = CreateObject("Scripting.FileSystemObject")
-	if hitCounter = 0 then
+	if hitCounter < 0 then
 		if FSO.FileExists(outFile) then
 			FSO.DeleteFile outFile
 		end if
