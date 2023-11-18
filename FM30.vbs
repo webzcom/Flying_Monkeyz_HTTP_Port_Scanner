@@ -7,7 +7,7 @@
 'Refrence this Sans video on threat hunting
 'https://www.youtube.com/watch?v=GjquFKa4afU&ab_channel=SANSDigitalForensicsandIncidentResponse
 'This one is suspect,might be hacker group: Dectected: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:79.0) Gecko/20100101 Firefox/79.0
-strUserAgent = "GoGoSlurpZuda"
+strUserAgent = "Mozilla/5.0 (iPad; CPU OS 12_5_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.1.2 Mobile/15E148 Safari/604.1"
 
 
 ON ERROR RESUME NEXT
