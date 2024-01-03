@@ -1,7 +1,7 @@
 # Flying_Monkeyz_HTTP_Port_Scanner
   - Flying Monkeyz Port Scanner
   - Author: CyberAbyss (Rick Cable)
-  - Version 2.1 Alpha
+  - Version 7.1 Alpha
   - Website: https://lostinthecyberabyss.com/
   - Released for educational purposes without warranty
 
