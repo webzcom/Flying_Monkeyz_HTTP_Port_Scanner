@@ -17,17 +17,19 @@ HOW TO CONFIGURE:
 DEFINE GLOBAL VARIABLES
  
 MODES: Modes are set by true / false values in the configuration 
-- Short Scan: Scans the most common ports from list of which there are several. For now they are all the same variable, some are just commented out unless used like camera IPs. I'll come back later to make improvement on this feature.
+
+- Short Scan: Scans the most common ports from list of which there are several.
+SHORT SCAN SETTINGS:
+- commonPortsList: I've left two lines for the common ports list. There maybe more.
+- A short list w/ port 80, 81, 8080 only for use with mass scan to speed it up then a longer list "80,443,5000,8080,32400,554,88,81,555,7447,8554,7070,10554,6667,8081,8090"
+- I've added addtional common ports lists like web cameras which you can uncomment to enable.
+- arrCommonPorts: Holds the array of common ports created from the list.
+
+  
 - Long Scan: Scans all the ports from 1 to 65536
 - Mass Scan: Runs a short scan on all IP addresses in the target IP's subnet
 - Note: If you run a mass scan, you'll need to set both Long and Short Scans to False until I can fix the code.
-
-SHORT SCAN SETTINGS:
-- commonPortsList: I've left two lines for the common ports list. 
-- A short list w/ port 80 only for use with mass scan to speed it up then longer list "80,443,5000,8080,32400,554,88,81,555,7447,8554,7070,10554,6667,8081,8090"
-- arrCommonPorts: Holds the array of common ports created from the list.
-
-LONG SCAN SETTINGS:
+- LONG SCAN SETTINGS:
 - Step = 1: Controls the increment value of the loop (Use values like 2 or 3 for Even & Odd ports or 1000)
 - iStartPort = 1: Lowest Value is 1
 - iEndPort = 65536: Max HTTP port value is 65536
