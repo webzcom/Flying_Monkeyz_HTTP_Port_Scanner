@@ -7,7 +7,7 @@
 
 IMPORTANT!
   - This is a VBScript that runs on Windows.
-  - DO NOT run this on external target without having VPN or remote Cloud Server.
+  - DO NOT run this on external target without using a VPN or remote Cloud Server.
   - By default, script will scan all the IPs in the last octet of http://192.168.1.0. You can figure out how to change it in the variables.
 
 HOW TO CONFIGURE:
