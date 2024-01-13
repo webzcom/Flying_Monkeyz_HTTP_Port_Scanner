@@ -8,11 +8,23 @@
 IMPORTANT!
   - This is a VBScript that runs on Windows.
   - DO NOT run this on external target without using a VPN or remote Cloud Server.
-  - By default, script will scan all the IPs in the last octet of http://192.168.1.0. You can figure out how to change it in the variables.
 
-HOW TO CONFIGURE:
+There are 3 files that make up the Flying Monkeyz HTTP Port Scanner
+  - FM30.vbs - This is the HTTP Port Scanner
+  - Monkeyz_Launcher.vbs - Allows you to configure a work list and lauch waves of Flying Monkeyz in batches until all the work is done.
+
+FM30.vbs HTTP Port Scaner:
+  - FM30.vbs is the HTTP Port Scanner. It already configured and ready to use the most basic settings.
+  - Make sure you have a "scans" and "scans_completed" folder setup before running the script like I have it in the repo.
+  - I recommend trying to scan your local network first like 192.168.1.0
   - Use the script configuration variables to configure Flying Monkeyz.
   - Below are details of how to configure the script.
+
+Monkeyz_Launcher.vbs - Launch waves of Flying Monkeyz to scan IP ranges much faster at scale.
+
+Kill_All_Flying_Monkeyz.vbs - Kills all running instances of Flying Monkeyz by killing all running VBS scripts via Windows.
+
+CONFIGURE FLYING MONKEYZ
 
 DEFINE GLOBAL VARIABLES
  
