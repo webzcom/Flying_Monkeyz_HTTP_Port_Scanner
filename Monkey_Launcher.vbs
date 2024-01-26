@@ -16,12 +16,13 @@
 	'75.149.26.30:1024
 	'2.40.45.90
 	'strIP = "2.40."
+	strIP = "129.130."
 
 'Be careful here not to launch too many Monkeyz at once!
-'This loop is for 3rd Octet of IP Address. FM21 will loop through the 4th Octect
-For i = 49 to 69
+'This loop is for 3rd Octet of IP Address. FM2 will loop through the 4th Octect
+For i = 0 to 25
 	tempIP = strIP & i & ".0"
-	objShell.Run "FM30.vbs " & tempIP	
+	objShell.Run "FM.vbs " & tempIP	
 Next	
 	' Using Set is mandatory
 	Set objShell = Nothing
