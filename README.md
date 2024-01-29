@@ -15,7 +15,7 @@ There are 3 files that make up the Flying Monkeyz HTTP Port Scanner
   - Kill_All_Flying_Monkeyz.vbs: Kills all running instances of Flying Monkeyz by killing all running VBS scripts via Windows.
 
 FM30.vbs HTTP Port Scaner:
-  - FM30.vbs is the HTTP Port Scanner. 
+  - FM.vbs is the HTTP Port Scanner. 
   - Make sure you have a "scans" and "scans_completed" folder setup before running the script like I have it in the repo.
   - I recommend trying to scan your local network first like 192.168.1.0
 
