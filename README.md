@@ -21,6 +21,10 @@ FM.vbs HTTP Port Scaner:
 
 ## HOW TO CONFIGURE FLYING MONKEYZ
 
+FM.vbs HTTP Port Scaner:
+  - Make sure you have a "scans" and "scans_completed" folder setup before running the script like I have it in the repo.
+  - I recommend trying to scan your local network first like 192.168.1.0
+
 DEFINE GLOBAL VARIABLES:
 - rootPath = "C:\scripts\01-Monkeyz"
 - scrapePath = "C:\scripts\01-Monkeyz\scrape\"
