@@ -14,14 +14,18 @@ There are 3 files that make up the Flying Monkeyz HTTP Port Scanner
   - Monkeyz_Launcher.vbs: Allows you to configure a work list of IP ranges and lauch waves of Flying Monkeyz in batches until all the work is done.
   - Kill_All_Flying_Monkeyz.vbs: Kills all running instances of Flying Monkeyz by killing all running VBS scripts via Windows.
 
-FM30.vbs HTTP Port Scaner:
+FM.vbs HTTP Port Scaner:
   - FM.vbs is the HTTP Port Scanner. 
   - Make sure you have a "scans" and "scans_completed" folder setup before running the script like I have it in the repo.
   - I recommend trying to scan your local network first like 192.168.1.0
 
-HOW TO CONFIGURE FLYING MONKEYZ
+## HOW TO CONFIGURE FLYING MONKEYZ
 
-DEFINE GLOBAL VARIABLES
+DEFINE GLOBAL VARIABLES:
+rootPath = "C:\scripts\01-Monkeyz"
+scrapePath = "C:\scripts\01-Monkeyz\scrape\"
+scanPath = "C:\scripts\01-Monkeyz\scans\"
+completedPath = "C:\scripts\01-Monkeyz\scans_completed\"
  
 MODES: Modes are set by true / false values in the configuration 
 
