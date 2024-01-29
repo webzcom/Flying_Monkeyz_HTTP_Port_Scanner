@@ -22,10 +22,10 @@ FM.vbs HTTP Port Scaner:
 ## HOW TO CONFIGURE FLYING MONKEYZ
 
 DEFINE GLOBAL VARIABLES:
-rootPath = "C:\scripts\01-Monkeyz"
-scrapePath = "C:\scripts\01-Monkeyz\scrape\"
-scanPath = "C:\scripts\01-Monkeyz\scans\"
-completedPath = "C:\scripts\01-Monkeyz\scans_completed\"
+- rootPath = "C:\scripts\01-Monkeyz"
+- scrapePath = "C:\scripts\01-Monkeyz\scrape\"
+- scanPath = "C:\scripts\01-Monkeyz\scans\"
+- completedPath = "C:\scripts\01-Monkeyz\scans_completed\"
  
 MODES: Modes are set by true / false values in the configuration 
 
