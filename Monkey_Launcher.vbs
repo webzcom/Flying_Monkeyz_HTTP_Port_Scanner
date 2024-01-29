@@ -1,28 +1,31 @@
-'Monkeyz Launcher for Flying Monkeyz HTTP Port Scanner
-'Author: Rick Cable (CyberAbyss)
-'Version 3.0 Beta
-'Released for educational purposes without warranty
+'Outside Loop
 
-'Outside Loop for 3rd Octet of IP Address
 	Dim objShell
 	Set objShell = Wscript.CreateObject("WScript.Shell")
-	
-	'Web Cam IPs
-	'24.255.72.234:8080/multi.html
-	'46.243.108.21:8080
-	'24.255.72.234:8080
-	'109.233.191.228:8090
-	'86.57.137.159:8082
-	'75.149.26.30:1024
-	'2.40.45.90
-	'strIP = "2.40."
-	strIP = "129.130."
 
-'Be careful here not to launch too many Monkeyz at once!
-'This loop is for 3rd Octet of IP Address. FM2 will loop through the 4th Octect
-For i = 0 to 25
-	tempIP = strIP & i & ".0"
-	objShell.Run "FM.vbs " & tempIP	
-Next	
-	' Using Set is mandatory
-	Set objShell = Nothing
+'Separate IP subnets with a pipe character. This is the list we will loop thru
+'strIPList = "192.167.|192.168."
+
+arrIPList = Split(strIPList,"|")
+
+'Monkey Launcher Sleep Timer Setting Estimates with Hard Wired Network Connection: 
+'With common ports set your minutes to:
+'Web Cams, set your sleep minutes to 180
+iSleepTimer = 180 
+
+For each item in arrIPList
+	strIP = item
+	For i = 0 to 255
+		tempIP = strIP & i & ".0"
+		objShell.Run "FM.vbs " & tempIP		
+	Next
+		'Sleep for 40 minutes before running the next one until we're on the last one.
+	'	1000 = 1 second * 60 = 1 minute * 30 minutes
+		'Check to see if we are on the last IP range, if yes then don't wait to close script
+		if item <> UBound(arrIPList) then
+			wscript.sleep(60*1000*iSleepTimer)
+		end if	
+Next
+' Using Set is mandatory
+Set objShell = Nothing
+	
