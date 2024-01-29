@@ -10,7 +10,7 @@ arrIPList = Split(strIPList,"|")
 
 'Monkey Launcher Sleep Timer Setting Estimates with Hard Wired Network Connection: 
 'With common ports set your minutes to:
-'Web Cams, set your sleep minutes to 180
+'Web Cams: 180
 iSleepTimer = 180 
 
 For each item in arrIPList
