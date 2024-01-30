@@ -66,15 +66,12 @@ TARGET INFORMATION:
   - target = "http://" & targetIP
   - sTarget = "https://" & targetIP
 
-DETECTION OF COMMON TARGET TYPES (V. 2.1)
-- I've added the abililty to detect various types of targets we've scraped
-- The comments will show you what values are detected including some values in Persian
-- redirect_suffix is for QNAP NAS redirect page found 4/3/2024
-Target Types by these string values: defaultwebpage.cgi,.asp?,index.js,Synology,IIS,Apache,webcam,webcamXP,Webmail,redirect_suffix,NextFiber Monitoring,nginx,router configuration,Network Security Appliance,Login,تلگرام
-
-FILE PATHS:
-- rootPath = "C:\scripts\01-Monkeyz"
-- scrapePath = "C:\scripts\01-Monkeyz\scrape\"
+DETECTION OF COMMON TARGET TYPES:
+- Added the abililty to detect various types of targets we've gotten a response from.
+- The target type column will show you what values were detected including some values in Persian and Manarin.
+- Example of Target Types by string values:
+  - defaultwebpage.cgi,.asp?,index.js,Synology,IIS,Apache,webcam,webcamXP,Webmail,redirect_suffix,NextFiber Monitoring,nginx,router configuration,Network Security Appliance,Login,تلگرام
+-  Note: redirect_suffix is for QNAP NAS redirect page found 4/3/2024
 
 FILE READING / WRITING
 - strNewLine = Chr(13) & Chr(10)
