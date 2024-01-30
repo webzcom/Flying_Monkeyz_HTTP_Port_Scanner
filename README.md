@@ -39,19 +39,8 @@ MODES:
 - Modes are set by true/false values in the configuration 
 
 SHORT SCAN SETTINGS:
-- - Short Scan: Scans the most common ports from list of which there are several.
--
-Common Ports Lists:
-- There are several common ports lists that are available in the code like the Web Cam Ports list.
-- Enable a ports list by uncommenting out the line of code for the list you want to use, comment out any other ports list lines.
-- Be carefule when selecting large port lists. Each ports adds an additional loop and can affect your Monkey Launcher timing calculations
-- See the Monkey Launcher documentation for more information on impact of ports lists on batch launching of Monkeyz.
-
-- A short list w/ port 80, 81, 8080 only for use with mass scan to speed it up then a longer list "80,443,5000,8080,32400,554,88,81,555,7447,8554,7070,10554,6667,8081,8090"
-- I've added addtional common ports lists like web cameras which you can uncomment to enable.
-- arrCommonPorts: Holds the array of common ports created from the list.
-
-  
+- Short Scan: Scans the most common ports from a common ports list of which there are several you can choose from.
+- There are other scan settings but they are not ready for prime time. Just use the Short Scan.
 - Long Scan: Scans all the ports from 1 to 65536
 - Mass Scan: Runs a short scan on all IP addresses in the target IP's subnet
 - Note: If you run a mass scan, you'll need to set both Long and Short Scans to False until I can fix the code.
@@ -60,10 +49,20 @@ Common Ports Lists:
 - iStartPort = 1: Lowest Value is 1
 - iEndPort = 65536: Max HTTP port value is 65536
 
-TARGET INFORMATION
-- targetIP = "localhost" OR "192.168.1.0"
-- target = "http://" & targetIP
-- sTarget = "https://" & targetIP
+Common Ports Lists:
+- There are several common ports lists that are available in the code like the Web Cam Ports list.
+- Enable a ports list by uncommenting out the line of code for the list you want to use, comment out any other ports list lines.
+- Be carefule when selecting large port lists. Each ports adds an additional loop and can affect your Monkey Launcher timing calculations
+- See the Monkey Launcher documentation for more information on impact of ports lists on batch launching of Monkeyz.
+- For example, a short common ports list could be just port 80 if you like, by default, ports 80, 81, 8080 are typically selecte
+
+TARGET INFORMATION:
+- This information is captured by the user input when running FM.vbs
+- This information is passed via command line parameter when using Monkey_Launcher.vbs to launch FM.vbs
+- Example: targetIP = "localhost" OR "192.168.1.0"
+- Variables:
+  - target = "http://" & targetIP
+  - sTarget = "https://" & targetIP
 
 DETECTION OF COMMON TARGET TYPES (V. 2.1)
 - I've added the abililty to detect various types of targets we've scraped
