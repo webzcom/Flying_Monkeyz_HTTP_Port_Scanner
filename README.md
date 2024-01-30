@@ -1,3 +1,26 @@
+# Flying_Monkeyz_HTTP_Port_Scanner
+  - Flying Monkeyz Port Scanner
+  - Author: CyberAbyss (Rick Cable)
+  - Version 7.1 Alpha
+  - Website: https://lostinthecyberabyss.com/
+  - Released for educational purposes without warranty
+
+IMPORTANT!:
+  - This is a VBScript that runs on Windows.
+  - DO NOT run this on external target without using a VPN or remote Cloud Server.
+
+There are 3 files that make up the Flying Monkeyz HTTP Port Scanner Suite:
+  - FM.vbs: This is the HTTP Port Scanner. Comes configured with most basic settings.
+  - Monkey_Launcher.vbs: Allows you to configure a work list of IP ranges and lauch waves of Flying Monkeyz in batches until all the work is done.
+  - Kill_All_Flying_Monkeyz.vbs: Kills all running instances of Flying Monkeyz by killing all running VBS scripts via Windows.
+
+FM.vbs HTTP Port Scaner:
+  - FM.vbs is the HTTP Port Scanner. 
+  - Make sure you have a "scans" and "scans_completed" folder setup before running the script like I have it in the repo.
+  - I recommend trying to scan your local network first like 192.168.1.0
+
+## Configuring Flying Monkeyz
+
 Before You Start:
   - Make sure you have a "scans" and "scans_completed" folder setup before running the script like I have it in the repo.
   - I recommend trying to scan your local network first like 192.168.1.0
