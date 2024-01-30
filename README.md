@@ -24,6 +24,9 @@ FM.vbs HTTP Port Scaner:
 
 ## Configuring Flying Monkeyz (FM.vbs)
 
+You can view a quick start guide here: 
+- https://www.youtube.com/watch?v=Zm88z5FdKwo&ab_channel=CyberAbyss
+
 Before You Start:
   - Make sure you have a "scans" and "scans_completed" folder setup before running the script like I have it in the repo.
   - I recommend trying to scan your local network first like 192.168.1.0 and use this time to setup your VPN Killswtch.
