@@ -31,8 +31,8 @@ DEFINE GLOBAL VARIABLES:
 - scanPath = "C:\scripts\01-Monkeyz\scans\"
 - completedPath = "C:\scripts\01-Monkeyz\scans_completed\"
  
-MODES: 
-- Modes are set by true/false values in the configuration 
+MODES / SETTINGS: 
+- Modes & Settings are set by true/false values in the configuration 
 
 SHORT SCAN SETTINGS:
 - Short Scan: Scans the most common ports from a common ports list of which there are several you can choose from.
