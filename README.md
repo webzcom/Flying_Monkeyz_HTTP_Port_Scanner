@@ -35,11 +35,18 @@ DEFINE GLOBAL VARIABLES:
 - scanPath = "C:\scripts\01-Monkeyz\scans\"
 - completedPath = "C:\scripts\01-Monkeyz\scans_completed\"
  
-MODES: Modes are set by true / false values in the configuration 
+MODES: 
+- Modes are set by true/false values in the configuration 
 
-- Short Scan: Scans the most common ports from list of which there are several.
 SHORT SCAN SETTINGS:
-- commonPortsList: I've left two lines for the common ports list. There maybe more.
+- - Short Scan: Scans the most common ports from list of which there are several.
+-
+Common Ports Lists:
+- There are several common ports lists that are available in the code like the Web Cam Ports list.
+- Enable a ports list by uncommenting out the line of code for the list you want to use, comment out any other ports list lines.
+- Be carefule when selecting large port lists. Each ports adds an additional loop and can affect your Monkey Launcher timing calculations
+- See the Monkey Launcher documentation for more information on impact of ports lists on batch launching of Monkeyz.
+
 - A short list w/ port 80, 81, 8080 only for use with mass scan to speed it up then a longer list "80,443,5000,8080,32400,554,88,81,555,7447,8554,7070,10554,6667,8081,8090"
 - I've added addtional common ports lists like web cameras which you can uncomment to enable.
 - arrCommonPorts: Holds the array of common ports created from the list.
