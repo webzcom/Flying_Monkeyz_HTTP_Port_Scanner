@@ -9,7 +9,7 @@ IMPORTANT!:
   - This is a VBScript that runs on Windows.
   - DO NOT run this on external target without using a VPN or remote Cloud Server.
 
-There are 3 files that make up the Flying Monkeyz HTTP Port Scanner Suite:
+3 files that make up the Flying Monkeyz HTTP Port Scanner Suite:
   - FM.vbs: This is the HTTP Port Scanner. Comes configured with most basic settings.
   - Monkey_Launcher.vbs: Allows you to configure a work list of IP ranges and lauch waves of Flying Monkeyz in batches until all the work is done.
   - Kill_All_Flying_Monkeyz.vbs: Kills all running instances of Flying Monkeyz by killing all running VBS scripts via Windows.
